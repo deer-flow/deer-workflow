@@ -47,11 +47,42 @@ const deerGhostMaterial = new THREE.MeshPhysicalMaterial({
   depthWrite: false,
 });
 
-const deerEdgeMaterial = new THREE.LineBasicMaterial({
-  color: acid,
+const deerEdgeMaterial = new THREE.ShaderMaterial({
+  uniforms: {
+    uTime: { value: 0 },
+  },
+  vertexShader: `
+    varying float vFlow;
+
+    void main() {
+      vFlow = position.x * 0.28 + position.y * 0.22 + position.z * 0.16;
+      gl_Position =
+        projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `,
+  fragmentShader: `
+    varying float vFlow;
+    uniform float uTime;
+
+    vec3 hueToRgb(float hue) {
+      vec3 rgb = clamp(
+        abs(mod(hue * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0,
+        0.0,
+        1.0
+      );
+      return rgb * rgb * (3.0 - 2.0 * rgb);
+    }
+
+    void main() {
+      float hue = fract(vFlow + uTime * 0.025);
+      vec3 rainbow = hueToRgb(hue);
+      vec3 color = mix(rainbow, vec3(0.93, 1.0, 0.78), 0.18);
+      gl_FragColor = vec4(color, 0.48);
+    }
+  `,
   transparent: true,
-  opacity: 0.26,
   depthWrite: false,
+  blending: THREE.AdditiveBlending,
 });
 
 const deerParticleMaterial = new THREE.ShaderMaterial({
@@ -63,29 +94,32 @@ const deerParticleMaterial = new THREE.ShaderMaterial({
     attribute float aSize;
     attribute float aMix;
     attribute float aSpeed;
+    attribute vec3 aTarget;
     varying float vMix;
     varying float vAlpha;
     varying float vStreak;
+    varying float vAccent;
 
     uniform float uTime;
 
     void main() {
       vec2 flowDirection = normalize(vec2(0.78, 1.0));
       float life = fract(
-        aPhase / 6.2831853 + uTime * (0.24 + aSpeed * 0.24)
+        aPhase / 6.2831853 + uTime * (0.065 + aSpeed * 0.065)
       );
       float envelope = sin(life * 3.1415926);
-      float diagonal = dot(position.xy, flowDirection);
+      float progress = life * life * (3.0 - 2.0 * life);
+      vec3 displaced = mix(position, aTarget, progress);
+      float diagonal = dot(displaced.xy, flowDirection);
       float stream = pow(
         0.5 + 0.5 * sin(
-          diagonal * 8.5 - uTime * (8.0 + aSpeed * 5.0) + aPhase
+          diagonal * 7.0 - uTime * 0.55 + aMix * 0.8
         ),
-        7.0
+        5.0
       );
       float surfacePulse =
-        sin(uTime * 1.35 + position.y * 3.8 + aPhase) * 0.026;
-      vec3 displaced = position + normal * surfacePulse;
-      displaced.xy += flowDirection * ((life - 0.5) * 0.11);
+        sin(uTime * 0.72 + displaced.y * 3.8 + aPhase) * 0.012;
+      displaced += normal * surfacePulse;
 
       vec4 viewPosition = modelViewMatrix * vec4(displaced, 1.0);
       gl_Position = projectionMatrix * viewPosition;
@@ -95,15 +129,17 @@ const deerParticleMaterial = new THREE.ShaderMaterial({
         10.0
       );
 
-      vMix = clamp(aMix * 0.55 + stream * 0.72, 0.0, 1.0);
-      vAlpha = envelope * (0.22 + stream * 0.78);
+      vMix = fract(aMix * 0.78 + life * 0.34);
+      vAlpha = envelope * (0.34 + stream * 0.66);
       vStreak = stream;
+      vAccent = step(0.94, aMix) * (0.35 + stream * 0.65);
     }
   `,
   fragmentShader: `
     varying float vMix;
     varying float vAlpha;
     varying float vStreak;
+    varying float vAccent;
 
     void main() {
       vec2 point = gl_PointCoord - vec2(0.5);
@@ -116,7 +152,65 @@ const deerParticleMaterial = new THREE.ShaderMaterial({
       float particle = mix(dotShape, streakShape, vStreak);
       vec3 paper = vec3(0.941, 0.933, 0.902);
       vec3 acid = vec3(0.851, 1.0, 0.337);
-      vec3 color = mix(paper, acid, vMix);
+      vec3 ice = vec3(0.365, 0.82, 1.0);
+      vec3 coral = vec3(1.0, 0.42, 0.62);
+      vec3 color =
+        vMix < 0.5
+          ? mix(ice, acid, vMix * 2.0)
+          : mix(acid, paper, (vMix - 0.5) * 2.0);
+      color = mix(color, coral, vAccent);
+
+      gl_FragColor = vec4(color, particle * vAlpha);
+    }
+  `,
+  transparent: true,
+  depthWrite: false,
+  blending: THREE.AdditiveBlending,
+});
+
+const deerFillMaterial = new THREE.ShaderMaterial({
+  uniforms: {
+    uTime: { value: 0 },
+  },
+  vertexShader: `
+    attribute float aPhase;
+    attribute float aSize;
+    attribute float aMix;
+    varying float vMix;
+    varying float vAlpha;
+
+    uniform float uTime;
+
+    void main() {
+      vec3 displaced =
+        position + normal * sin(uTime * 0.38 + aPhase) * 0.006;
+      vec4 viewPosition = modelViewMatrix * vec4(displaced, 1.0);
+      gl_Position = projectionMatrix * viewPosition;
+      gl_PointSize = clamp(
+        aSize * (185.0 / -viewPosition.z) * 1.35,
+        1.25,
+        5.5
+      );
+
+      vMix = aMix;
+      vAlpha = 0.42 + 0.18 * sin(uTime * 0.45 + aPhase);
+    }
+  `,
+  fragmentShader: `
+    varying float vMix;
+    varying float vAlpha;
+
+    void main() {
+      float distanceToCenter = length(gl_PointCoord - vec2(0.5));
+      float particle = 1.0 - smoothstep(0.12, 0.5, distanceToCenter);
+      vec3 inkBlue = vec3(0.18, 0.46, 0.52);
+      vec3 ice = vec3(0.365, 0.82, 1.0);
+      vec3 acid = vec3(0.851, 1.0, 0.337);
+      vec3 paper = vec3(0.941, 0.933, 0.902);
+      vec3 color =
+        vMix < 0.4
+          ? mix(inkBlue, ice, vMix / 0.4)
+          : mix(acid, paper, (vMix - 0.4) / 0.6);
 
       gl_FragColor = vec4(color, particle * vAlpha);
     }
@@ -193,8 +287,9 @@ new OBJLoader().load(
       mesh.geometry = cropGeometryAbove(mesh.geometry, 2.15);
       mesh.material = deerGhostMaterial;
 
-      const particleCount = window.innerWidth < 720 ? 8200 : 14000;
+      const particleCount = window.innerWidth < 720 ? 12000 : 24000;
       const positions = new Float32Array(particleCount * 3);
+      const targets = new Float32Array(particleCount * 3);
       const normals = new Float32Array(particleCount * 3);
       const phases = new Float32Array(particleCount);
       const sizes = new Float32Array(particleCount);
@@ -203,14 +298,42 @@ new OBJLoader().load(
       const sampler = new MeshSurfaceSampler(mesh).build();
       const sampledPosition = new THREE.Vector3();
       const sampledNormal = new THREE.Vector3();
+      const targetPosition = new THREE.Vector3();
+      const candidatePosition = new THREE.Vector3();
+      const candidateNormal = new THREE.Vector3();
+      const flowX = 0.615;
+      const flowY = 0.788;
 
       for (let index = 0; index < particleCount; index += 1) {
         sampler.sample(sampledPosition, sampledNormal);
         const offset = index * 3;
+        targetPosition.copy(sampledPosition);
+        let bestAdvance = 0;
+
+        for (let attempt = 0; attempt < 12; attempt += 1) {
+          sampler.sample(candidatePosition, candidateNormal);
+          const deltaX = candidatePosition.x - sampledPosition.x;
+          const deltaY = candidatePosition.y - sampledPosition.y;
+          const advance = deltaX * flowX + deltaY * flowY;
+          const distance = candidatePosition.distanceTo(sampledPosition);
+
+          if (advance > bestAdvance && distance < 1.15) {
+            bestAdvance = advance;
+            targetPosition.copy(candidatePosition);
+          }
+
+          if (advance > 0.16 && distance < 0.72) {
+            targetPosition.copy(candidatePosition);
+            break;
+          }
+        }
 
         positions[offset] = sampledPosition.x;
         positions[offset + 1] = sampledPosition.y;
         positions[offset + 2] = sampledPosition.z;
+        targets[offset] = targetPosition.x;
+        targets[offset + 1] = targetPosition.y;
+        targets[offset + 2] = targetPosition.z;
         normals[offset] = sampledNormal.x;
         normals[offset + 1] = sampledNormal.y;
         normals[offset + 2] = sampledNormal.z;
@@ -228,6 +351,10 @@ new OBJLoader().load(
       particleGeometry.setAttribute(
         "normal",
         new THREE.BufferAttribute(normals, 3),
+      );
+      particleGeometry.setAttribute(
+        "aTarget",
+        new THREE.BufferAttribute(targets, 3),
       );
       particleGeometry.setAttribute(
         "aPhase",
@@ -252,6 +379,13 @@ new OBJLoader().load(
       );
       particles.renderOrder = 2;
       mesh.add(particles);
+
+      const fillParticles = new THREE.Points(
+        particleGeometry,
+        deerFillMaterial,
+      );
+      fillParticles.renderOrder = 1;
+      mesh.add(fillParticles);
 
       const edges = new THREE.LineSegments(
         new THREE.EdgesGeometry(mesh.geometry, 24),
@@ -367,6 +501,7 @@ scene.add(rim);
 scene.add(new THREE.AmbientLight(new THREE.Color("#e9ffbc"), 0.8));
 
 const pointer = { x: 0, y: 0 };
+const cameraPointer = { x: 0, y: 0 };
 let frameId = 0;
 let startTime = performance.now();
 let manualTime = null;
@@ -382,11 +517,26 @@ function renderScene(time) {
   const seconds = time / 1000;
   const ambient = reducedMotion.matches ? 0 : seconds;
   deerParticleMaterial.uniforms.uTime.value = ambient;
+  deerFillMaterial.uniforms.uTime.value = ambient;
+  deerEdgeMaterial.uniforms.uTime.value = ambient;
+
+  cameraPointer.x += (pointer.x - cameraPointer.x) * 0.045;
+  cameraPointer.y += (pointer.y - cameraPointer.y) * 0.045;
+  camera.position.set(
+    Math.sin(ambient * 0.12) * 0.95 + cameraPointer.x * 1.35,
+    0.12 + Math.cos(ambient * 0.09) * 0.28 - cameraPointer.y * 0.82,
+    9.15 +
+      Math.sin(ambient * 0.075) * 0.5 -
+      Math.abs(cameraPointer.x) * 0.34 +
+      cameraPointer.y * 0.18,
+  );
+  camera.lookAt(cameraPointer.x * -0.16, 0.12 + cameraPointer.y * 0.12, 0);
+
   core.rotation.y +=
-    (pointer.x * 0.22 + Math.sin(ambient * 0.22) * 0.08 - core.rotation.y) *
+    (pointer.x * 0.3 + Math.sin(ambient * 0.12) * 0.17 - core.rotation.y) *
     0.035;
   core.rotation.x +=
-    (-pointer.y * 0.18 + Math.sin(ambient * 0.3) * 0.08 - core.rotation.x) *
+    (-pointer.y * 0.24 + Math.sin(ambient * 0.3) * 0.08 - core.rotation.x) *
     0.035;
   deerPivot.position.y = 0.18 + Math.sin(ambient * 0.7) * 0.045;
   frame.rotation.y = 0.65 - ambient * 0.08;
