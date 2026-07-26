@@ -4,6 +4,7 @@
   --acid: #d9ff56;
   --muted: #a4a69d;
   --line: rgba(240, 238, 230, 0.16);
+  --page-gutter: max(3.2vw, calc((100vw - 1600px) / 2));
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
 }
@@ -51,7 +52,7 @@ html[lang="zh-CN"] h1 {
   max-width: 780px;
   font-size: clamp(72px, 7.1vw, 126px);
   letter-spacing: -0.055em;
-  line-height: 0.9;
+  line-height: 1.02;
 }
 
 html[lang="zh-CN"] h1 span {
@@ -71,19 +72,19 @@ html[lang="zh-CN"] .hero-copy {
 html[lang="zh-CN"] .principles-heading h2 {
   font-size: clamp(54px, 6.1vw, 98px);
   letter-spacing: -0.05em;
-  line-height: 1.02;
+  line-height: 1.1;
 }
 
 html[lang="zh-CN"] .example-copy h2 {
   font-size: clamp(44px, 5.1vw, 78px);
   letter-spacing: -0.045em;
-  line-height: 1;
+  line-height: 1.08;
 }
 
 html[lang="zh-CN"] .build-copy h2 {
   font-size: clamp(40px, 4.3vw, 68px);
   letter-spacing: -0.045em;
-  line-height: 1.04;
+  line-height: 1.1;
 }
 
 html[lang="zh-CN"] .eyebrow,
@@ -130,7 +131,7 @@ button {
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   width: 100%;
-  padding: 16px 3.2vw;
+  padding: 16px var(--page-gutter);
   border-bottom: 1px solid var(--line);
   opacity: 0;
   animation: enter-down 500ms var(--ease-out) 80ms forwards;
@@ -275,7 +276,7 @@ nav a:hover::after {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(380px, 0.95fr);
   min-height: 100svh;
-  padding: 104px 3.2vw 72px;
+  padding: 104px var(--page-gutter) 72px;
   isolation: isolate;
 }
 
@@ -553,7 +554,7 @@ h1 span {
 .scroll-cue {
   position: absolute;
   bottom: 27px;
-  left: 3.2vw;
+  left: var(--page-gutter);
   display: flex;
   align-items: center;
   gap: 14px;
@@ -600,7 +601,7 @@ h1 span {
 }
 
 .principles {
-  padding: 170px 3.2vw 150px;
+  padding: 170px var(--page-gutter) 150px;
   color: var(--ink);
   background: var(--paper);
 }
@@ -721,7 +722,7 @@ h1 span {
   align-items: center;
   gap: 8vw;
   min-height: 760px;
-  padding: 110px 3.2vw;
+  padding: 110px var(--page-gutter);
   color: var(--ink);
   background: var(--acid);
 }
@@ -861,7 +862,7 @@ h1 span {
   grid-template-columns: 0.75fr 1.25fr;
   gap: 8vw;
   min-height: 750px;
-  padding: 145px 3.2vw;
+  padding: 145px var(--page-gutter);
   background:
     linear-gradient(120deg, rgba(217, 255, 86, 0.06), transparent 35%),
     var(--ink);
@@ -992,7 +993,7 @@ footer {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 34px 3.2vw;
+  padding: 34px var(--page-gutter);
   border-top: 1px solid var(--line);
   color: #777970;
   font-size: 9px;
@@ -1151,14 +1152,14 @@ footer a:hover {
 
   html[lang="zh-CN"] h1 {
     font-size: clamp(50px, 14vw, 72px);
-    line-height: 0.94;
+    line-height: 1.02;
   }
 
   html[lang="zh-CN"] .principles-heading h2,
   html[lang="zh-CN"] .example-copy h2,
   html[lang="zh-CN"] .build-copy h2 {
     font-size: clamp(38px, 12vw, 58px);
-    line-height: 1.05;
+    line-height: 1.08;
   }
 
   .hero-actions {
