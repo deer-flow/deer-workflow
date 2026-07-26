@@ -952,6 +952,12 @@ h1 span {
     monospace;
 }
 
+.code-import {
+  font-size: 0.88em;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+
 .code-faint {
   display: inline-block;
   width: 28px;

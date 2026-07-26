@@ -569,10 +569,8 @@ const orbitControl = {
   lastY: 0,
   yaw: 0,
   pitch: 0,
-  zoom: 0,
   targetYaw: 0,
   targetPitch: 0,
-  targetZoom: 0,
 };
 let frameId = 0;
 let startTime = performance.now();
@@ -597,15 +595,11 @@ function renderScene(time) {
   cameraPointer.y += (pointer.y - cameraPointer.y) * 0.045;
   orbitControl.yaw += (orbitControl.targetYaw - orbitControl.yaw) * 0.075;
   orbitControl.pitch += (orbitControl.targetPitch - orbitControl.pitch) * 0.075;
-  orbitControl.zoom += (orbitControl.targetZoom - orbitControl.zoom) * 0.065;
 
   const orbitAngle =
     Math.sin(ambient * 0.09) * 0.16 + orbitControl.yaw + cameraPointer.x * 0.1;
   const orbitRadius =
-    9.15 +
-    Math.sin(ambient * 0.075) * 0.82 +
-    orbitControl.zoom +
-    cameraPointer.y * 0.12;
+    9.15 + Math.sin(ambient * 0.075) * 0.82 + cameraPointer.y * 0.12;
   camera.position.set(
     Math.sin(orbitAngle) * orbitRadius,
     0.12 +
@@ -684,18 +678,6 @@ function endOrbit(event) {
 
 visual.addEventListener("pointerup", endOrbit);
 visual.addEventListener("pointercancel", endOrbit);
-visual.addEventListener(
-  "wheel",
-  (event) => {
-    event.preventDefault();
-    orbitControl.targetZoom = THREE.MathUtils.clamp(
-      orbitControl.targetZoom + event.deltaY * 0.003,
-      -2.15,
-      2.8,
-    );
-  },
-  { passive: false },
-);
 visual.addEventListener("pointerleave", () => {
   if (orbitControl.dragging) return;
   pointer.x = 0;

@@ -26,7 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Mono:wght@300;400;500&family=Noto+Sans+SC:wght@400;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260726-6" />
+    <link rel="stylesheet" href="./styles.css?v=20260726-7" />
   </head>
   <body>
     <div class="noise" aria-hidden="true"></div>
@@ -326,30 +326,48 @@
             <span>workflow.ts</span>
             <div><i></i><i></i><i></i></div>
           </div>
-          <pre><code><span class="code-faint">01</span> <span class="code-pink">import</span> { agent, parallel, phase } <span class="code-pink">from</span>
-<span class="code-faint">02</span>   <span class="code-green">"@deerwork-ai/deer-workflow"</span>;
-<span class="code-faint">03</span>
-<span class="code-faint">04</span> <span class="code-pink">export const</span> meta = {
-<span class="code-faint">05</span>   name: <span class="code-green">"research-synthesis"</span>,
-<span class="code-faint">06</span>   description: <span class="code-green">"Researches and synthesizes a topic."</span>,
-<span class="code-faint">07</span>   phases: [
-<span class="code-faint">08</span>     { title: <span class="code-green">"Map the territory"</span> },
+          <pre><code><span class="code-faint">01</span> <span class="code-import"><span class="code-pink">import</span> { agent, log, parallel, phase, pipeline } <span class="code-pink">from</span> <span class="code-green">"@deerwork-ai/deer-workflow"</span>;</span>
+<span class="code-faint">02</span>
+<span class="code-faint">03</span> <span class="code-pink">export const</span> meta = {
+<span class="code-faint">04</span>   name: <span class="code-green">"research-synthesis"</span>,
+<span class="code-faint">05</span>   description: <span class="code-green">"Researches and synthesizes a topic."</span>,
+<span class="code-faint">06</span>   phases: [
+<span class="code-faint">07</span>     { title: <span class="code-green">"Plan"</span> },
+<span class="code-faint">08</span>     { title: <span class="code-green">"Research"</span> },
 <span class="code-faint">09</span>     { title: <span class="code-green">"Synthesize"</span> },
 <span class="code-faint">10</span>   ],
-<span class="code-faint">11</span> };
-<span class="code-faint">12</span>
-<span class="code-faint">13</span> <span class="code-pink">export default async function</span> <span class="code-blue">run</span>(args) {
-<span class="code-faint">14</span>   <span class="code-blue">phase</span>(<span class="code-green">"Map the territory"</span>);
-<span class="code-faint">15</span>   <span class="code-pink">const</span> signals = <span class="code-pink">await</span> <span class="code-blue">parallel</span>([
-<span class="code-faint">16</span>     () => <span class="code-blue">agent</span>(<span class="code-green">`Research ${args.topic}`</span>),
-<span class="code-faint">17</span>     () => <span class="code-blue">agent</span>(<span class="code-green">"Challenge assumptions"</span>),
-<span class="code-faint">18</span>   ]);
-<span class="code-faint">19</span>
-<span class="code-faint">20</span>   <span class="code-blue">phase</span>(<span class="code-green">"Synthesize"</span>);
-<span class="code-faint">21</span>   <span class="code-pink">return</span> <span class="code-blue">agent</span>(
-<span class="code-faint">22</span>     <span class="code-green">`Synthesize:\n${JSON.stringify(signals)}`</span>,
-<span class="code-faint">23</span>   );
-<span class="code-faint">24</span> }</code></pre>
+<span class="code-faint">11</span>   exampleArgs: { topic: <span class="code-green">"Agentic workflow design"</span> },
+<span class="code-faint">12</span> };
+<span class="code-faint">13</span>
+<span class="code-faint">14</span> <span class="code-pink">export default async function</span> <span class="code-blue">workflow</span>(args: { topic: string }) {
+<span class="code-faint">15</span>   <span class="code-blue">phase</span>(<span class="code-green">"Plan"</span>);
+<span class="code-faint">16</span>   <span class="code-blue">log</span>(<span class="code-green">`Planning research for ${args.topic}`</span>);
+<span class="code-faint">17</span>   <span class="code-pink">const</span> plan = <span class="code-pink">await</span> <span class="code-blue">agent</span>&lt;{ angles: string[] }&gt;(
+<span class="code-faint">18</span>     <span class="code-green">`Plan independent research angles for ${args.topic}`</span>,
+<span class="code-faint">19</span>     {
+<span class="code-faint">20</span>       schema: {
+<span class="code-faint">21</span>         type: <span class="code-green">"object"</span>,
+<span class="code-faint">22</span>         properties: { angles: { type: <span class="code-green">"array"</span>, items: { type: <span class="code-green">"string"</span> } } },
+<span class="code-faint">23</span>         required: [<span class="code-green">"angles"</span>],
+<span class="code-faint">24</span>         additionalProperties: <span class="code-blue">false</span>,
+<span class="code-faint">25</span>       },
+<span class="code-faint">26</span>     },
+<span class="code-faint">27</span>   );
+<span class="code-faint">28</span>
+<span class="code-faint">29</span>   <span class="code-blue">phase</span>(<span class="code-green">"Research"</span>);
+<span class="code-faint">30</span>   <span class="code-blue">log</span>(<span class="code-green">`Researching ${plan.angles.length} angles`</span>);
+<span class="code-faint">31</span>   <span class="code-pink">const</span> signals = <span class="code-pink">await</span> <span class="code-blue">parallel</span>(
+<span class="code-faint">32</span>     plan.angles.map((angle) => () => <span class="code-blue">agent</span>(<span class="code-green">`Research ${angle}`</span>)),
+<span class="code-faint">33</span>   );
+<span class="code-faint">34</span>   <span class="code-pink">const</span> findings = <span class="code-pink">await</span> <span class="code-blue">pipeline</span>(
+<span class="code-faint">35</span>     signals.filter(Boolean),
+<span class="code-faint">36</span>     (signal) => <span class="code-blue">agent</span>(<span class="code-green">`Extract key facts:\n${signal}`</span>),
+<span class="code-faint">37</span>   );
+<span class="code-faint">38</span>   <span class="code-blue">log</span>(<span class="code-green">`Prepared ${findings.length} findings`</span>);
+<span class="code-faint">39</span>
+<span class="code-faint">40</span>   <span class="code-blue">phase</span>(<span class="code-green">"Synthesize"</span>);
+<span class="code-faint">41</span>   <span class="code-pink">return</span> <span class="code-blue">agent</span>(<span class="code-green">`Synthesize:\n${JSON.stringify(findings)}`</span>);
+<span class="code-faint">42</span> }</code></pre>
           <div class="code-status">
             <span><i></i> FLOW READY</span>
             <span>EXPLICIT IMPORTS / ASYNC RUNTIME</span>
@@ -385,6 +403,6 @@
         }
       }
     </script>
-    <script type="module" src="./app.js?v=20260726-6"></script>
+    <script type="module" src="./app.js?v=20260726-7"></script>
   </body>
 </html>
