@@ -104,18 +104,10 @@ button {
   letter-spacing: -0.04em;
 }
 
-.brand svg {
-  width: 26px;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.35;
-}
-
-.brand b {
-  color: var(--acid);
-  font-weight: 400;
+.brand img {
+  display: block;
+  width: 128px;
+  height: auto;
 }
 
 nav {
