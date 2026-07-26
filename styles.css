@@ -100,32 +100,32 @@ button {
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
   width: fit-content;
-  font-size: 14px;
-  letter-spacing: -0.04em;
 }
 
 .brand img {
   display: block;
-  width: 128px;
+  width: 132px;
   height: auto;
 }
 
 .product-suffix {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
   color: var(--acid);
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0.08em;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.055em;
+  line-height: 1;
   text-transform: uppercase;
+  transform: translateY(1px);
 }
 
 .product-suffix::before {
   width: 1px;
-  height: 18px;
+  height: 26px;
   background: rgba(240, 238, 230, 0.28);
   content: "";
 }
@@ -909,12 +909,16 @@ footer a:hover {
   }
 
   .site-header > .brand img {
-    width: 112px;
+    width: 108px;
   }
 
   .product-suffix {
-    gap: 7px;
-    font-size: 8px;
+    gap: 9px;
+    font-size: 11px;
+  }
+
+  .product-suffix::before {
+    height: 22px;
   }
 
   .star-button > span:not(.button-arrow) {

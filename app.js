@@ -1,4 +1,5 @@
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
+import * as THREE from "three";
+import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
 
 const canvas = document.querySelector("#workflow-core");
 const visual = document.querySelector(".hero-visual");
@@ -26,43 +27,129 @@ const acid = new THREE.Color("#d9ff56");
 const paper = new THREE.Color("#f0eee6");
 const dark = new THREE.Color("#151812");
 
-const solid = new THREE.Mesh(
-  new THREE.IcosahedronGeometry(1.42, 2),
-  new THREE.MeshPhysicalMaterial({
-    color: dark,
-    emissive: new THREE.Color("#24300d"),
-    emissiveIntensity: 0.72,
-    metalness: 0.35,
-    roughness: 0.22,
-    clearcoat: 1,
-    clearcoatRoughness: 0.18,
-    transparent: true,
-    opacity: 0.92,
-  }),
-);
-core.add(solid);
+const deerPivot = new THREE.Group();
+deerPivot.rotation.y = 0.52;
+deerPivot.position.y = 0.18;
+core.add(deerPivot);
 
-const wire = new THREE.LineSegments(
-  new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(1.48, 2)),
+const deerMaterial = new THREE.MeshPhysicalMaterial({
+  color: dark,
+  emissive: new THREE.Color("#28370d"),
+  emissiveIntensity: 0.78,
+  metalness: 0.42,
+  roughness: 0.26,
+  clearcoat: 1,
+  clearcoatRoughness: 0.2,
+  flatShading: true,
+});
+
+const deerEdgeMaterial = new THREE.LineBasicMaterial({
+  color: acid,
+  transparent: true,
+  opacity: 0.62,
+  depthWrite: false,
+});
+
+function cropGeometryAbove(geometry, minimumY) {
+  const source = geometry.index ? geometry.toNonIndexed() : geometry;
+  const position = source.getAttribute("position");
+  const normal = source.getAttribute("normal");
+  const positions = [];
+  const normals = [];
+
+  for (let index = 0; index < position.count; index += 3) {
+    const averageY =
+      (position.getY(index) +
+        position.getY(index + 1) +
+        position.getY(index + 2)) /
+      3;
+
+    if (averageY < minimumY) {
+      continue;
+    }
+
+    for (let vertex = index; vertex < index + 3; vertex += 1) {
+      positions.push(
+        position.getX(vertex),
+        position.getY(vertex),
+        position.getZ(vertex),
+      );
+
+      if (normal) {
+        normals.push(
+          normal.getX(vertex),
+          normal.getY(vertex),
+          normal.getZ(vertex),
+        );
+      }
+    }
+  }
+
+  const cropped = new THREE.BufferGeometry();
+  cropped.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute(positions, 3),
+  );
+
+  if (normals.length > 0) {
+    cropped.setAttribute(
+      "normal",
+      new THREE.Float32BufferAttribute(normals, 3),
+    );
+  } else {
+    cropped.computeVertexNormals();
+  }
+
+  return cropped;
+}
+
+new OBJLoader().load(
+  "./assets/models/statue-stag.obj",
+  (deer) => {
+    const meshes = [];
+    deer.traverse((child) => {
+      if (child.isMesh) {
+        meshes.push(child);
+      }
+    });
+
+    for (const mesh of meshes) {
+      mesh.geometry = cropGeometryAbove(mesh.geometry, 2.15);
+      mesh.material = deerMaterial;
+      const edges = new THREE.LineSegments(
+        new THREE.EdgesGeometry(mesh.geometry, 24),
+        deerEdgeMaterial,
+      );
+      mesh.add(edges);
+    }
+
+    const bounds = new THREE.Box3().setFromObject(deer);
+    const size = bounds.getSize(new THREE.Vector3());
+    const center = bounds.getCenter(new THREE.Vector3());
+    const scale = 4.75 / size.y;
+
+    deer.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
+    deer.scale.setScalar(scale);
+
+    deerPivot.add(deer);
+  },
+  undefined,
+  (error) => {
+    console.error("Unable to load the deer mesh.", error);
+  },
+);
+
+const frame = new THREE.LineSegments(
+  new THREE.EdgesGeometry(new THREE.OctahedronGeometry(2.65, 0)),
   new THREE.LineBasicMaterial({
     color: acid,
     transparent: true,
-    opacity: 0.52,
-  }),
-);
-core.add(wire);
-
-const shell = new THREE.Mesh(
-  new THREE.IcosahedronGeometry(1.78, 1),
-  new THREE.MeshBasicMaterial({
-    color: acid,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.075,
+    opacity: 0.085,
     depthWrite: false,
   }),
 );
-core.add(shell);
+frame.rotation.set(0.25, 0.65, 0.12);
+core.add(frame);
 
 const nodeMaterial = new THREE.MeshBasicMaterial({ color: paper });
 const hotNodeMaterial = new THREE.MeshBasicMaterial({ color: acid });
@@ -158,13 +245,14 @@ function renderScene(time) {
   const seconds = time / 1000;
   const ambient = reducedMotion.matches ? 0 : seconds;
   core.rotation.y +=
-    (pointer.x * 0.28 + ambient * 0.12 - core.rotation.y) * 0.035;
+    (pointer.x * 0.22 + Math.sin(ambient * 0.22) * 0.08 - core.rotation.y) *
+    0.035;
   core.rotation.x +=
     (-pointer.y * 0.18 + Math.sin(ambient * 0.3) * 0.08 - core.rotation.x) *
     0.035;
-  shell.rotation.y = -ambient * 0.1;
-  shell.rotation.z = ambient * 0.06;
-  solid.rotation.z = ambient * 0.035;
+  deerPivot.position.y = 0.18 + Math.sin(ambient * 0.7) * 0.045;
+  frame.rotation.y = 0.65 - ambient * 0.08;
+  frame.rotation.z = 0.12 + ambient * 0.035;
   renderer.render(scene, camera);
 }
 
