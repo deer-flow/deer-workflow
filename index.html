@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="deer-workflow — deterministic TypeScript orchestration for replaceable AI agents."
+    />
+    <meta name="theme-color" content="#070806" />
+    <meta
+      property="og:title"
+      content="deer-workflow — Make agents move with intent."
+    />
+    <meta
+      property="og:description"
+      content="Deterministic TypeScript orchestration. Replaceable agent runtimes."
+    />
+    <title>deer-workflow — Make agents move with intent.</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Mono:wght@300;400;500&family=Noto+Sans+SC:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="deer-workflow home">
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M9 3 6 10l4 4m13-11 3 7-4 4M10 9l6 4 6-4v9l-6 9-6-9V9Z" />
+          <path d="m12 18 4 2 4-2M16 20v4" />
+        </svg>
+        <span>deer/<b>workflow</b></span>
+      </a>
+
+      <nav aria-label="Primary navigation">
+        <a href="#why" data-i18n="navWhy">Why</a>
+        <a href="#build" data-i18n="navBuild">Build</a>
+        <a
+          id="docs-link"
+          href="https://github.com/deer-flow/deer-workflow#readme"
+          data-i18n="navDocs"
+          >Docs</a
+        >
+      </nav>
+
+      <div class="header-actions">
+        <div class="language-switch" aria-label="Language">
+          <button type="button" data-lang="en" aria-pressed="true">EN</button>
+          <span>/</span>
+          <button type="button" data-lang="zh-CN" aria-pressed="false">
+            中文
+          </button>
+        </div>
+        <a
+          class="star-button"
+          href="https://github.com/deer-flow/deer-workflow"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M12 .7a12 12 0 0 0-3.79 23.39c.6.11.82-.26.82-.58v-2.1c-3.34.73-4.04-1.42-4.04-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.88.12 3.18a4.64 4.64 0 0 1 1.23 3.22c0 4.61-2.81 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .7Z"
+            />
+          </svg>
+          <span>Star on GitHub</span>
+          <span class="button-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">
+            <span></span
+            ><b data-i18n="eyebrow">Open-source agent orchestration</b>
+          </p>
+          <h1 id="hero-title" data-i18n-html="heroTitle">
+            Make agents
+            <span>move with intent.</span>
+          </h1>
+          <p class="hero-intro" data-i18n="heroIntro">
+            Deterministic TypeScript orchestration for the work that must stay
+            predictable. Replaceable Agent runtimes for everything that
+            shouldn’t.
+          </p>
+
+          <div class="hero-actions">
+            <a class="primary-button" href="#build">
+              <span data-i18n="startBuilding">Start building</span>
+              <span aria-hidden="true">↘</span>
+            </a>
+            <button
+              class="copy-command"
+              type="button"
+              data-copy="bun install --global git+https://github.com/deer-flow/deer-workflow.git"
+            >
+              <code>bun install --global git+https://…</code>
+              <span class="copy-label" data-i18n="copy">Copy</span>
+            </button>
+          </div>
+
+          <div class="runtime-strip" aria-label="Runtime attributes">
+            <span data-i18n="runtimeTypes">01 / STRICT TYPESCRIPT</span>
+            <span data-i18n="runtimeCodex">02 / CODEX READY</span>
+            <span data-i18n="runtimeNeutral">03 / VENDOR NEUTRAL</span>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <canvas id="workflow-core"></canvas>
+          <div class="visual-label label-input">
+            <span>01</span>
+            INTENT
+          </div>
+          <div class="visual-label label-flow">
+            <span>02</span>
+            FLOW
+          </div>
+          <div class="visual-label label-agent">
+            <span>03</span>
+            AGENT
+          </div>
+          <div class="core-caption">
+            <span class="live-dot"></span>
+            DYNAMIC CORE / ONLINE
+          </div>
+        </div>
+
+        <div class="scroll-cue" aria-hidden="true">
+          <span data-i18n="explore">Explore the system</span>
+          <i></i>
+        </div>
+      </section>
+
+      <div class="ticker" aria-hidden="true">
+        <div class="ticker-track">
+          <span>DETERMINISTIC FLOW</span><i>✦</i>
+          <span>REPLACEABLE INTELLIGENCE</span><i>✦</i>
+          <span>ONE COMPOSABLE RUNTIME</span><i>✦</i>
+          <span>DETERMINISTIC FLOW</span><i>✦</i>
+          <span>REPLACEABLE INTELLIGENCE</span><i>✦</i>
+          <span>ONE COMPOSABLE RUNTIME</span><i>✦</i>
+        </div>
+      </div>
+
+      <section class="principles" id="why" aria-labelledby="principles-title">
+        <div class="section-index">
+          <span>01</span>
+          <p data-i18n="whyLabel">WHY DEER WORKFLOW</p>
+        </div>
+        <div class="principles-heading">
+          <h2 id="principles-title" data-i18n-html="whyTitle">
+            Keep the path.<br /><em>Change the mind.</em>
+          </h2>
+          <p data-i18n="whyIntro">
+            The workflow stays legible and testable. The agent layer stays open,
+            swappable, and ready for the next runtime.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article>
+            <span class="feature-number">01</span>
+            <svg viewBox="0 0 80 80" aria-hidden="true">
+              <path d="M7 40h22m22 0h22M29 20v40m22-40v40" />
+              <circle cx="29" cy="40" r="7" />
+              <circle cx="51" cy="40" r="7" />
+            </svg>
+            <h3 data-i18n="featureOneTitle">Deterministic by design</h3>
+            <p data-i18n="featureOneBody">
+              Phases, pipelines, parallel work, and nested workflows stay
+              explicit in code.
+            </p>
+          </article>
+          <article>
+            <span class="feature-number">02</span>
+            <svg viewBox="0 0 80 80" aria-hidden="true">
+              <circle cx="40" cy="40" r="25" />
+              <path d="M40 15v50M15 40h50M22 22l36 36M58 22 22 58" />
+            </svg>
+            <h3 data-i18n="featureTwoTitle">Agents stay replaceable</h3>
+            <p data-i18n="featureTwoBody">
+              Bind one stable contract to Codex today—or another complete agent
+              loop tomorrow.
+            </p>
+          </article>
+          <article>
+            <span class="feature-number">03</span>
+            <svg viewBox="0 0 80 80" aria-hidden="true">
+              <path d="m14 55 17-30 15 30 10-18 10 18" />
+              <circle cx="14" cy="55" r="4" />
+              <circle cx="31" cy="25" r="4" />
+              <circle cx="46" cy="55" r="4" />
+              <circle cx="56" cy="37" r="4" />
+              <circle cx="66" cy="55" r="4" />
+            </svg>
+            <h3 data-i18n="featureThreeTitle">Observable at the edge</h3>
+            <p data-i18n="featureThreeBody">
+              JSON Lines events make every run traceable across process
+              boundaries.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="build" id="build" aria-labelledby="build-title">
+        <div class="build-copy">
+          <div class="section-index light">
+            <span>02</span>
+            <p data-i18n="buildLabel">BUILD THE FLOW</p>
+          </div>
+          <h2 id="build-title" data-i18n-html="buildTitle">
+            Readable on purpose.<br />Powerful in motion.
+          </h2>
+          <p data-i18n="buildIntro">
+            Compose semantic agent work inside deterministic control flow. No
+            hidden globals. No orchestration magic.
+          </p>
+          <a
+            id="guide-link"
+            href="https://github.com/deer-flow/deer-workflow#how-to-use"
+          >
+            <span data-i18n="readGuide">Read the getting started guide</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+
+        <div class="code-window">
+          <div class="code-chrome">
+            <span>workflow.ts</span>
+            <div><i></i><i></i><i></i></div>
+          </div>
+          <pre><code><span class="code-faint">01</span> <span class="code-pink">import</span> { agent, parallel, phase } <span class="code-pink">from</span>
+<span class="code-faint">02</span>   <span class="code-green">"@deer-flow/workflow"</span>;
+<span class="code-faint">03</span>
+<span class="code-faint">04</span> <span class="code-pink">export default async function</span> <span class="code-blue">run</span>(args) {
+<span class="code-faint">05</span>   <span class="code-pink">const</span> signals = <span class="code-pink">await</span> <span class="code-blue">phase</span>(
+<span class="code-faint">06</span>     <span class="code-green">"Map the territory"</span>,
+<span class="code-faint">07</span>     () => <span class="code-blue">parallel</span>([
+<span class="code-faint">08</span>       <span class="code-blue">agent</span>(<span class="code-green">`Research ${args.topic}`</span>),
+<span class="code-faint">09</span>       <span class="code-blue">agent</span>(<span class="code-green">`Challenge assumptions`</span>),
+<span class="code-faint">10</span>     ]),
+<span class="code-faint">11</span>   );
+<span class="code-faint">12</span>
+<span class="code-faint">13</span>   <span class="code-pink">return</span> <span class="code-blue">agent</span>(<span class="code-green">`Synthesize ${signals}`</span>);
+<span class="code-faint">14</span> }</code></pre>
+          <div class="code-status">
+            <span><i></i> FLOW READY</span>
+            <span>STRICT TYPES / ASYNC RUNTIME</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <a class="brand footer-brand" href="#top">
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M9 3 6 10l4 4m13-11 3 7-4 4M10 9l6 4 6-4v9l-6 9-6-9V9Z" />
+          <path d="m12 18 4 2 4-2M16 20v4" />
+        </svg>
+        <span>deer/<b>workflow</b></span>
+      </a>
+      <p data-i18n="footerTagline">Open source. Built in the open.</p>
+      <div>
+        <a href="https://github.com/deer-flow/deer-workflow">GitHub</a>
+        <a href="https://github.com/deer-flow/deer-workflow/blob/main/LICENSE"
+          >MIT License</a
+        >
+      </div>
+    </footer>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
