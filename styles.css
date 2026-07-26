@@ -112,6 +112,24 @@ button {
   height: auto;
 }
 
+.product-suffix {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--acid);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.product-suffix::before {
+  width: 1px;
+  height: 18px;
+  background: rgba(240, 238, 230, 0.28);
+  content: "";
+}
+
 nav {
   display: flex;
   gap: 36px;
@@ -888,6 +906,15 @@ footer a:hover {
 
   .header-actions {
     gap: 10px;
+  }
+
+  .site-header > .brand img {
+    width: 112px;
+  }
+
+  .product-suffix {
+    gap: 7px;
+    font-size: 8px;
   }
 
   .star-button > span:not(.button-arrow) {
