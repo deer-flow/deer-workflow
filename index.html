@@ -5,19 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="deer-workflow combines program stability with Agent initiative. Code handles the flow; Agents handle judgment."
+      content="deer-workflow combines program stability with Agent initiative. Let code drive the flow; Agents handle judgment."
     />
     <meta name="theme-color" content="#070806" />
     <meta
       property="og:title"
-      content="deer-workflow — Code handles the flow. Agents handle judgment."
+      content="deer-workflow — Let code drive the flow. Agents handle judgment."
     />
     <meta
       property="og:description"
       content="Program stability meets Agent initiative."
     />
     <title>
-      deer-workflow — Code handles the flow. Agents handle judgment.
+      deer-workflow — Let code drive the flow. Agents handle judgment.
     </title>
     <link rel="icon" href="./deerflow-logo-solid.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -85,7 +85,7 @@
             ><b data-i18n="eyebrow">Program stability × Agent initiative</b>
           </p>
           <h1 id="hero-title" data-i18n-html="heroTitle">
-            Code handles the flow.
+            Let code drive the flow.
             <span>Agents handle judgment.</span>
           </h1>
           <p class="hero-intro" data-i18n="heroIntro">
@@ -222,10 +222,61 @@
         </div>
       </section>
 
+      <section
+        class="example-runner"
+        id="example"
+        aria-labelledby="example-title"
+      >
+        <div class="example-copy">
+          <div class="section-index">
+            <span>02</span>
+            <p data-i18n="exampleLabel">RUN A REAL WORKFLOW</p>
+          </div>
+          <h2 id="example-title" data-i18n-html="exampleTitle">
+            Run the<br /><em>deep-research</em> example.
+          </h2>
+          <p data-i18n="exampleIntro">
+            From the repository root, give the Workflow a question. It plans the
+            research, runs independent angles in parallel, and synthesizes the
+            result.
+          </p>
+          <a
+            id="example-link"
+            href="https://github.com/deerwork-ai/deer-workflow/tree/main/examples/deep-research"
+          >
+            <span data-i18n="openExample">Open the example</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+
+        <div class="example-terminal">
+          <div class="terminal-chrome">
+            <span>TERMINAL / DEEP RESEARCH</span>
+            <span>READY</span>
+          </div>
+          <button
+            class="copy-command example-command"
+            type="button"
+            data-copy='deer-workflow run ./examples/deep-research/workflow.ts --input &apos;{"question":"How do Dynamic Workflows work?"}&apos;'
+          >
+            <span class="terminal-prompt" aria-hidden="true">$</span>
+            <code
+              >deer-workflow run ./examples/deep-research/workflow.ts --input
+              '{"question":"How do Dynamic Workflows work?"}'</code
+            >
+            <span class="copy-label" data-i18n="copy">Copy</span>
+          </button>
+          <div class="terminal-status">
+            <span><i></i> JSONL EVENTS → STDERR</span>
+            <span>RESULT → STDOUT</span>
+          </div>
+        </div>
+      </section>
+
       <section class="build" id="build" aria-labelledby="build-title">
         <div class="build-copy">
           <div class="section-index light">
-            <span>02</span>
+            <span>03</span>
             <p data-i18n="buildLabel">THE WORKFLOW IS CODE</p>
           </div>
           <h2 id="build-title" data-i18n-html="buildTitle">

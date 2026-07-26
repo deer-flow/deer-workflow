@@ -291,12 +291,11 @@ window.__maTimeline = {
   },
 };
 
-const copyButton = document.querySelector(".copy-command");
 const translations = {
   en: {
-    title: "deer-workflow — Code handles the flow. Agents handle judgment.",
+    title: "deer-workflow — Let code drive the flow. Agents handle judgment.",
     description:
-      "deer-workflow combines program stability with Agent initiative. Code handles the flow; Agents handle judgment.",
+      "deer-workflow combines program stability with Agent initiative. Let code drive the flow; Agents handle judgment.",
     navWhy: "Why",
     navBuild: "How it works",
     navDocs: "Docs",
@@ -304,7 +303,7 @@ const translations = {
     guideHref:
       "https://github.com/deerwork-ai/deer-workflow/blob/main/docs/api.md#workflow-module-contract",
     eyebrow: "Program stability × Agent initiative",
-    heroTitle: "Code handles the flow.<span>Agents handle judgment.</span>",
+    heroTitle: "Let code drive the flow.<span>Agents handle judgment.</span>",
     heroIntro:
       "Dynamic Workflow puts orchestration in TypeScript. Order, concurrency, and stopping rules become explicit; a complete Agent Loop runs only where the task needs understanding and judgment.",
     startBuilding: "See how it works",
@@ -334,6 +333,13 @@ const translations = {
     featureThreeTitle: "Schema gives code a stable shape",
     featureThreeBody:
       "When code consumes an Agent result, JSON Schema validates its shape before the next step runs.",
+    exampleLabel: "RUN A REAL WORKFLOW",
+    exampleTitle: "Run the<br><em>deep-research</em> example.",
+    exampleIntro:
+      "From the repository root, give the Workflow a question. It plans the research, runs independent angles in parallel, and synthesizes the result.",
+    openExample: "Open the example",
+    exampleHref:
+      "https://github.com/deerwork-ai/deer-workflow/tree/main/examples/deep-research",
     buildLabel: "THE WORKFLOW IS CODE",
     buildTitle: "Ordinary TypeScript.<br>Only agent() starts an Agent Loop.",
     buildIntro:
@@ -383,6 +389,13 @@ const translations = {
     featureThreeTitle: "Schema 让结构可校验",
     featureThreeBody:
       "当结果还要交给代码消费，JSON Schema 会先校验输出结构，再让下一步继续。",
+    exampleLabel: "运行一个真实的 WORKFLOW",
+    exampleTitle: "跑一下<br><em>Deep Research</em> 示例。",
+    exampleIntro:
+      "在仓库根目录给 Workflow 一个问题。它会先制定研究计划，再并行探索不同角度，最后汇编结果。",
+    openExample: "查看示例源码",
+    exampleHref:
+      "https://github.com/deerwork-ai/deer-workflow/tree/main/examples/deep-research",
     buildLabel: "Workflow 就是一段代码",
     buildTitle: "普通 TypeScript。<br>只有 agent() 启动 Agent Loop。",
     buildIntro:
@@ -393,6 +406,11 @@ const translations = {
 };
 
 let activeLanguage = "en";
+
+for (const link of document.querySelectorAll("a")) {
+  link.target = "_blank";
+  link.rel = "noreferrer";
+}
 
 function setLanguage(language, persist = false) {
   activeLanguage = translations[language] ? language : "en";
@@ -405,6 +423,7 @@ function setLanguage(language, persist = false) {
     copy.description;
   document.querySelector("#docs-link").href = copy.docsHref;
   document.querySelector("#guide-link").href = copy.guideHref;
+  document.querySelector("#example-link").href = copy.exampleHref;
 
   for (const element of document.querySelectorAll("[data-i18n]")) {
     element.textContent = copy[element.dataset.i18n];
@@ -435,18 +454,20 @@ for (const button of document.querySelectorAll("[data-lang]")) {
 const savedLanguage = localStorage.getItem("deer-workflow-language-v2");
 setLanguage(savedLanguage || "en");
 
-copyButton.addEventListener("click", async () => {
-  const label = copyButton.querySelector(".copy-label");
-  try {
-    await navigator.clipboard.writeText(copyButton.dataset.copy);
-    label.textContent = translations[activeLanguage].copied;
-  } catch {
-    label.textContent = translations[activeLanguage].select;
-  }
-  window.setTimeout(() => {
-    label.textContent = translations[activeLanguage].copy;
-  }, 1600);
-});
+for (const copyButton of document.querySelectorAll(".copy-command")) {
+  copyButton.addEventListener("click", async () => {
+    const label = copyButton.querySelector(".copy-label");
+    try {
+      await navigator.clipboard.writeText(copyButton.dataset.copy);
+      label.textContent = translations[activeLanguage].copied;
+    } catch {
+      label.textContent = translations[activeLanguage].select;
+    }
+    window.setTimeout(() => {
+      label.textContent = translations[activeLanguage].copy;
+    }, 1600);
+  });
+}
 
 window.addEventListener("pagehide", () => {
   cancelAnimationFrame(frameId);
