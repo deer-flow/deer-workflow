@@ -30,7 +30,7 @@ const dark = new THREE.Color("#151812");
 
 const deerPivot = new THREE.Group();
 deerPivot.rotation.y = 0.52;
-deerPivot.position.y = 0.18;
+deerPivot.position.y = 0.48;
 core.add(deerPivot);
 
 const deerGhostMaterial = new THREE.MeshPhysicalMaterial({
@@ -538,7 +538,7 @@ function renderScene(time) {
   orbitControl.zoom += (orbitControl.targetZoom - orbitControl.zoom) * 0.065;
 
   const orbitAngle =
-    ambient * 0.042 + orbitControl.yaw + cameraPointer.x * 0.12;
+    ambient * 0.028 + orbitControl.yaw + cameraPointer.x * 0.12;
   const orbitRadius =
     9.15 +
     Math.sin(ambient * 0.075) * 0.82 +
@@ -560,7 +560,7 @@ function renderScene(time) {
   core.rotation.x +=
     (-pointer.y * 0.24 + Math.sin(ambient * 0.3) * 0.08 - core.rotation.x) *
     0.035;
-  deerPivot.position.y = 0.18 + Math.sin(ambient * 0.7) * 0.045;
+  deerPivot.position.y = 0.48 + Math.sin(ambient * 0.7) * 0.045;
   frame.rotation.y = 0.65 - ambient * 0.08;
   frame.rotation.z = 0.12 + ambient * 0.035;
   renderer.render(scene, camera);
