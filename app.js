@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
+import { MeshSurfaceSampler } from "three/addons/math/MeshSurfaceSampler.js";
 
 const canvas = document.querySelector("#workflow-core");
 const visual = document.querySelector(".hero-visual");
@@ -32,22 +33,97 @@ deerPivot.rotation.y = 0.52;
 deerPivot.position.y = 0.18;
 core.add(deerPivot);
 
-const deerMaterial = new THREE.MeshPhysicalMaterial({
+const deerGhostMaterial = new THREE.MeshPhysicalMaterial({
   color: dark,
   emissive: new THREE.Color("#28370d"),
-  emissiveIntensity: 0.78,
-  metalness: 0.42,
-  roughness: 0.26,
+  emissiveIntensity: 0.48,
+  metalness: 0.18,
+  roughness: 0.48,
   clearcoat: 1,
-  clearcoatRoughness: 0.2,
+  clearcoatRoughness: 0.36,
   flatShading: true,
+  transparent: true,
+  opacity: 0.075,
+  depthWrite: false,
 });
 
 const deerEdgeMaterial = new THREE.LineBasicMaterial({
   color: acid,
   transparent: true,
-  opacity: 0.62,
+  opacity: 0.26,
   depthWrite: false,
+});
+
+const deerParticleMaterial = new THREE.ShaderMaterial({
+  uniforms: {
+    uTime: { value: 0 },
+  },
+  vertexShader: `
+    attribute float aPhase;
+    attribute float aSize;
+    attribute float aMix;
+    attribute float aSpeed;
+    varying float vMix;
+    varying float vAlpha;
+    varying float vStreak;
+
+    uniform float uTime;
+
+    void main() {
+      vec2 flowDirection = normalize(vec2(0.78, 1.0));
+      float life = fract(
+        aPhase / 6.2831853 + uTime * (0.24 + aSpeed * 0.24)
+      );
+      float envelope = sin(life * 3.1415926);
+      float diagonal = dot(position.xy, flowDirection);
+      float stream = pow(
+        0.5 + 0.5 * sin(
+          diagonal * 8.5 - uTime * (8.0 + aSpeed * 5.0) + aPhase
+        ),
+        7.0
+      );
+      float surfacePulse =
+        sin(uTime * 1.35 + position.y * 3.8 + aPhase) * 0.026;
+      vec3 displaced = position + normal * surfacePulse;
+      displaced.xy += flowDirection * ((life - 0.5) * 0.11);
+
+      vec4 viewPosition = modelViewMatrix * vec4(displaced, 1.0);
+      gl_Position = projectionMatrix * viewPosition;
+      gl_PointSize = clamp(
+        aSize * (210.0 / -viewPosition.z) * (0.8 + stream * 2.6),
+        1.0,
+        10.0
+      );
+
+      vMix = clamp(aMix * 0.55 + stream * 0.72, 0.0, 1.0);
+      vAlpha = envelope * (0.22 + stream * 0.78);
+      vStreak = stream;
+    }
+  `,
+  fragmentShader: `
+    varying float vMix;
+    varying float vAlpha;
+    varying float vStreak;
+
+    void main() {
+      vec2 point = gl_PointCoord - vec2(0.5);
+      float along = (point.x + point.y) * 0.7071067;
+      float across = (point.y - point.x) * 0.7071067;
+      float dotShape = 1.0 - smoothstep(0.08, 0.5, length(point));
+      float streakShape =
+        (1.0 - smoothstep(0.04, 0.17, abs(across))) *
+        (1.0 - smoothstep(0.28, 0.52, abs(along)));
+      float particle = mix(dotShape, streakShape, vStreak);
+      vec3 paper = vec3(0.941, 0.933, 0.902);
+      vec3 acid = vec3(0.851, 1.0, 0.337);
+      vec3 color = mix(paper, acid, vMix);
+
+      gl_FragColor = vec4(color, particle * vAlpha);
+    }
+  `,
+  transparent: true,
+  depthWrite: false,
+  blending: THREE.AdditiveBlending,
 });
 
 function cropGeometryAbove(geometry, minimumY) {
@@ -115,7 +191,68 @@ new OBJLoader().load(
 
     for (const mesh of meshes) {
       mesh.geometry = cropGeometryAbove(mesh.geometry, 2.15);
-      mesh.material = deerMaterial;
+      mesh.material = deerGhostMaterial;
+
+      const particleCount = window.innerWidth < 720 ? 8200 : 14000;
+      const positions = new Float32Array(particleCount * 3);
+      const normals = new Float32Array(particleCount * 3);
+      const phases = new Float32Array(particleCount);
+      const sizes = new Float32Array(particleCount);
+      const mixes = new Float32Array(particleCount);
+      const speeds = new Float32Array(particleCount);
+      const sampler = new MeshSurfaceSampler(mesh).build();
+      const sampledPosition = new THREE.Vector3();
+      const sampledNormal = new THREE.Vector3();
+
+      for (let index = 0; index < particleCount; index += 1) {
+        sampler.sample(sampledPosition, sampledNormal);
+        const offset = index * 3;
+
+        positions[offset] = sampledPosition.x;
+        positions[offset + 1] = sampledPosition.y;
+        positions[offset + 2] = sampledPosition.z;
+        normals[offset] = sampledNormal.x;
+        normals[offset + 1] = sampledNormal.y;
+        normals[offset + 2] = sampledNormal.z;
+        phases[index] = Math.random() * Math.PI * 2;
+        sizes[index] = 0.055 + Math.random() * 0.11;
+        mixes[index] = Math.random();
+        speeds[index] = Math.random();
+      }
+
+      const particleGeometry = new THREE.BufferGeometry();
+      particleGeometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(positions, 3),
+      );
+      particleGeometry.setAttribute(
+        "normal",
+        new THREE.BufferAttribute(normals, 3),
+      );
+      particleGeometry.setAttribute(
+        "aPhase",
+        new THREE.BufferAttribute(phases, 1),
+      );
+      particleGeometry.setAttribute(
+        "aSize",
+        new THREE.BufferAttribute(sizes, 1),
+      );
+      particleGeometry.setAttribute(
+        "aMix",
+        new THREE.BufferAttribute(mixes, 1),
+      );
+      particleGeometry.setAttribute(
+        "aSpeed",
+        new THREE.BufferAttribute(speeds, 1),
+      );
+
+      const particles = new THREE.Points(
+        particleGeometry,
+        deerParticleMaterial,
+      );
+      particles.renderOrder = 2;
+      mesh.add(particles);
+
       const edges = new THREE.LineSegments(
         new THREE.EdgesGeometry(mesh.geometry, 24),
         deerEdgeMaterial,
@@ -244,6 +381,7 @@ function resize() {
 function renderScene(time) {
   const seconds = time / 1000;
   const ambient = reducedMotion.matches ? 0 : seconds;
+  deerParticleMaterial.uniforms.uTime.value = ambient;
   core.rotation.y +=
     (pointer.x * 0.22 + Math.sin(ambient * 0.22) * 0.08 - core.rotation.y) *
     0.035;
