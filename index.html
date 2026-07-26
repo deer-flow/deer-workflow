@@ -5,18 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="deer-workflow — deterministic TypeScript orchestration for replaceable AI agents."
+      content="deer-workflow combines program stability with Agent initiative. Code handles the flow; Agents handle judgment."
     />
     <meta name="theme-color" content="#070806" />
     <meta
       property="og:title"
-      content="deer-workflow — Make agents move with intent."
+      content="deer-workflow — Code handles the flow. Agents handle judgment."
     />
     <meta
       property="og:description"
-      content="Deterministic TypeScript orchestration. Replaceable agent runtimes."
+      content="Program stability meets Agent initiative."
     />
-    <title>deer-workflow — Make agents move with intent.</title>
+    <title>
+      deer-workflow — Code handles the flow. Agents handle judgment.
+    </title>
     <link rel="icon" href="./deerflow-logo-solid.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -39,7 +41,7 @@
 
       <nav aria-label="Primary navigation">
         <a href="#why" data-i18n="navWhy">Why</a>
-        <a href="#build" data-i18n="navBuild">Build</a>
+        <a href="#build" data-i18n="navBuild">How it works</a>
         <a
           id="docs-link"
           href="https://github.com/deerwork-ai/deer-workflow#readme"
@@ -79,21 +81,21 @@
         <div class="hero-copy">
           <p class="eyebrow">
             <span></span
-            ><b data-i18n="eyebrow">Open-source agent orchestration</b>
+            ><b data-i18n="eyebrow">Program stability × Agent initiative</b>
           </p>
           <h1 id="hero-title" data-i18n-html="heroTitle">
-            Make agents
-            <span>move with intent.</span>
+            Code handles the flow.
+            <span>Agents handle judgment.</span>
           </h1>
           <p class="hero-intro" data-i18n="heroIntro">
-            Deterministic TypeScript orchestration for the work that must stay
-            predictable. Replaceable Agent runtimes for everything that
-            shouldn’t.
+            Dynamic Workflow puts orchestration in TypeScript. Order,
+            concurrency, and stopping rules become explicit; a complete Agent
+            Loop runs only where the task needs understanding and judgment.
           </p>
 
           <div class="hero-actions">
             <a class="primary-button" href="#build">
-              <span data-i18n="startBuilding">Start building</span>
+              <span data-i18n="startBuilding">See how it works</span>
               <span aria-hidden="true">↘</span>
             </a>
             <button
@@ -107,9 +109,11 @@
           </div>
 
           <div class="runtime-strip" aria-label="Runtime attributes">
-            <span data-i18n="runtimeTypes">01 / STRICT TYPESCRIPT</span>
-            <span data-i18n="runtimeCodex">02 / CODEX READY</span>
-            <span data-i18n="runtimeNeutral">03 / VENDOR NEUTRAL</span>
+            <span data-i18n="runtimeTypes">01 / CODE HOLDS THE PLAN</span>
+            <span data-i18n="runtimeCodex">02 / AGENTS HANDLE JUDGMENT</span>
+            <span data-i18n="runtimeNeutral"
+              >03 / HUMANS RETAIN RESPONSIBILITY</span
+            >
           </div>
         </div>
 
@@ -117,15 +121,15 @@
           <canvas id="workflow-core"></canvas>
           <div class="visual-label label-input">
             <span>01</span>
-            INTENT
+            <b data-i18n="visualPlan">PLAN</b>
           </div>
           <div class="visual-label label-flow">
             <span>02</span>
-            FLOW
+            <b data-i18n="visualAgent">AGENT</b>
           </div>
           <div class="visual-label label-agent">
             <span>03</span>
-            AGENT
+            <b data-i18n="visualResult">RESULT</b>
           </div>
           <div class="core-caption">
             <span class="live-dot"></span>
@@ -141,27 +145,32 @@
 
       <div class="ticker" aria-hidden="true">
         <div class="ticker-track">
-          <span>DETERMINISTIC FLOW</span><i>✦</i>
-          <span>REPLACEABLE INTELLIGENCE</span><i>✦</i>
-          <span>ONE COMPOSABLE RUNTIME</span><i>✦</i>
-          <span>DETERMINISTIC FLOW</span><i>✦</i>
-          <span>REPLACEABLE INTELLIGENCE</span><i>✦</i>
-          <span>ONE COMPOSABLE RUNTIME</span><i>✦</i>
+          <span data-i18n="tickerOne">CODE HOLDS THE PLAN</span><i>✦</i>
+          <span data-i18n="tickerTwo">AGENTS HANDLE JUDGMENT</span><i>✦</i>
+          <span data-i18n="tickerThree"
+            >SKILLS CARRY KNOWLEDGE · WORKFLOWS MAKE STEPS EXPLICIT</span
+          ><i>✦</i> <span data-i18n="tickerOne">CODE HOLDS THE PLAN</span
+          ><i>✦</i> <span data-i18n="tickerTwo">AGENTS HANDLE JUDGMENT</span
+          ><i>✦</i>
+          <span data-i18n="tickerThree"
+            >SKILLS CARRY KNOWLEDGE · WORKFLOWS MAKE STEPS EXPLICIT</span
+          ><i>✦</i>
         </div>
       </div>
 
       <section class="principles" id="why" aria-labelledby="principles-title">
         <div class="section-index">
           <span>01</span>
-          <p data-i18n="whyLabel">WHY DEER WORKFLOW</p>
+          <p data-i18n="whyLabel">WHY DYNAMIC WORKFLOW</p>
         </div>
         <div class="principles-heading">
           <h2 id="principles-title" data-i18n-html="whyTitle">
-            Keep the path.<br /><em>Change the mind.</em>
+            Not every step<br /><em>needs a model.</em>
           </h2>
           <p data-i18n="whyIntro">
-            The workflow stays legible and testable. The agent layer stays open,
-            swappable, and ready for the next runtime.
+            Skills carry knowledge and strategy. When mechanical steps also live
+            in natural language, the Agent often has to interpret the plan again
+            as it advances. Dynamic Workflow moves that control flow into code.
           </p>
         </div>
 
@@ -173,10 +182,10 @@
               <circle cx="29" cy="40" r="7" />
               <circle cx="51" cy="40" r="7" />
             </svg>
-            <h3 data-i18n="featureOneTitle">Deterministic by design</h3>
+            <h3 data-i18n="featureOneTitle">Code holds the plan</h3>
             <p data-i18n="featureOneBody">
-              Phases, pipelines, parallel work, and nested workflows stay
-              explicit in code.
+              Phases, branches, Barriers, retry limits, and stopping rules live
+              in code, where they can be reviewed and tested.
             </p>
           </article>
           <article>
@@ -185,10 +194,10 @@
               <circle cx="40" cy="40" r="25" />
               <path d="M40 15v50M15 40h50M22 22l36 36M58 22 22 58" />
             </svg>
-            <h3 data-i18n="featureTwoTitle">Agents stay replaceable</h3>
+            <h3 data-i18n="featureTwoTitle">Agents handle judgment</h3>
             <p data-i18n="featureTwoBody">
-              Bind one stable contract to Codex today—or another complete agent
-              loop tomorrow.
+              agent() starts a complete ReAct Loop with tools and its own
+              Context—not a one-shot Prompt completion.
             </p>
           </article>
           <article>
@@ -201,10 +210,12 @@
               <circle cx="56" cy="37" r="4" />
               <circle cx="66" cy="55" r="4" />
             </svg>
-            <h3 data-i18n="featureThreeTitle">Observable at the edge</h3>
+            <h3 data-i18n="featureThreeTitle">
+              Schema gives code a stable shape
+            </h3>
             <p data-i18n="featureThreeBody">
-              JSON Lines events make every run traceable across process
-              boundaries.
+              When code consumes an Agent result, JSON Schema validates its
+              shape before the next step runs.
             </p>
           </article>
         </div>
@@ -214,20 +225,21 @@
         <div class="build-copy">
           <div class="section-index light">
             <span>02</span>
-            <p data-i18n="buildLabel">BUILD THE FLOW</p>
+            <p data-i18n="buildLabel">THE WORKFLOW IS CODE</p>
           </div>
           <h2 id="build-title" data-i18n-html="buildTitle">
-            Readable on purpose.<br />Powerful in motion.
+            Ordinary TypeScript.<br />Only agent() starts an Agent Loop.
           </h2>
           <p data-i18n="buildIntro">
-            Compose semantic agent work inside deterministic control flow. No
-            hidden globals. No orchestration magic.
+            Use arrays, branches, loops, and concurrency for the mechanical
+            work. Call agent() when a step needs understanding, exploration, or
+            judgment.
           </p>
           <a
             id="guide-link"
             href="https://github.com/deerwork-ai/deer-workflow#how-to-use"
           >
-            <span data-i18n="readGuide">Read the getting started guide</span>
+            <span data-i18n="readGuide">Read the Workflow API contract</span>
             <span aria-hidden="true">↗</span>
           </a>
         </div>
@@ -257,11 +269,13 @@
 <span class="code-faint">18</span>   ]);
 <span class="code-faint">19</span>
 <span class="code-faint">20</span>   <span class="code-blue">phase</span>(<span class="code-green">"Synthesize"</span>);
-<span class="code-faint">21</span>   <span class="code-pink">return</span> <span class="code-blue">agent</span>(<span class="code-green">`Synthesize ${signals}`</span>);
-<span class="code-faint">22</span> }</code></pre>
+<span class="code-faint">21</span>   <span class="code-pink">return</span> <span class="code-blue">agent</span>(
+<span class="code-faint">22</span>     <span class="code-green">`Synthesize:\n${JSON.stringify(signals)}`</span>,
+<span class="code-faint">23</span>   );
+<span class="code-faint">24</span> }</code></pre>
           <div class="code-status">
             <span><i></i> FLOW READY</span>
-            <span>STRICT TYPES / ASYNC RUNTIME</span>
+            <span>EXPLICIT IMPORTS / ASYNC RUNTIME</span>
           </div>
         </div>
       </section>
@@ -275,7 +289,9 @@
       >
         <img src="./deerflow-logo-solid.svg" alt="DeerFlow" />
       </a>
-      <p data-i18n="footerTagline">Open source. Built in the open.</p>
+      <p data-i18n="footerTagline">
+        Code handles mechanics. Agents handle judgment.
+      </p>
       <div>
         <a href="https://github.com/deerwork-ai/deer-workflow">GitHub</a>
         <a href="https://github.com/deerwork-ai/deer-workflow/blob/main/LICENSE"

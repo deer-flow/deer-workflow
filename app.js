@@ -206,86 +206,101 @@ window.__maTimeline = {
 const copyButton = document.querySelector(".copy-command");
 const translations = {
   en: {
-    title: "deer-workflow — Make agents move with intent.",
+    title: "deer-workflow — Code handles the flow. Agents handle judgment.",
     description:
-      "deer-workflow — deterministic TypeScript orchestration for replaceable AI agents.",
+      "deer-workflow combines program stability with Agent initiative. Code handles the flow; Agents handle judgment.",
     navWhy: "Why",
-    navBuild: "Build",
+    navBuild: "How it works",
     navDocs: "Docs",
     docsHref: "https://github.com/deerwork-ai/deer-workflow#readme",
-    guideHref: "https://github.com/deerwork-ai/deer-workflow#how-to-use",
-    eyebrow: "Open-source agent orchestration",
-    heroTitle: "Make agents<span>move with intent.</span>",
+    guideHref:
+      "https://github.com/deerwork-ai/deer-workflow/blob/main/docs/api.md#workflow-module-contract",
+    eyebrow: "Program stability × Agent initiative",
+    heroTitle: "Code handles the flow.<span>Agents handle judgment.</span>",
     heroIntro:
-      "Deterministic TypeScript orchestration for the work that must stay predictable. Replaceable Agent runtimes for everything that shouldn’t.",
-    startBuilding: "Start building",
+      "Dynamic Workflow puts orchestration in TypeScript. Order, concurrency, and stopping rules become explicit; a complete Agent Loop runs only where the task needs understanding and judgment.",
+    startBuilding: "See how it works",
     copy: "Copy",
     copied: "Copied",
     select: "Select",
-    runtimeTypes: "01 / STRICT TYPESCRIPT",
-    runtimeCodex: "02 / CODEX READY",
-    runtimeNeutral: "03 / VENDOR NEUTRAL",
+    runtimeTypes: "01 / CODE HOLDS THE PLAN",
+    runtimeCodex: "02 / AGENTS HANDLE JUDGMENT",
+    runtimeNeutral: "03 / HUMANS RETAIN RESPONSIBILITY",
+    visualPlan: "PLAN",
+    visualAgent: "AGENT",
+    visualResult: "RESULT",
+    tickerOne: "CODE HOLDS THE PLAN",
+    tickerTwo: "AGENTS HANDLE JUDGMENT",
+    tickerThree: "SKILLS CARRY KNOWLEDGE · WORKFLOWS MAKE STEPS EXPLICIT",
     explore: "Explore the system",
-    whyLabel: "WHY DEER WORKFLOW",
-    whyTitle: "Keep the path.<br><em>Change the mind.</em>",
+    whyLabel: "WHY DYNAMIC WORKFLOW",
+    whyTitle: "Not every step<br><em>needs a model.</em>",
     whyIntro:
-      "The workflow stays legible and testable. The agent layer stays open, swappable, and ready for the next runtime.",
-    featureOneTitle: "Deterministic by design",
+      "Skills carry knowledge and strategy. When mechanical steps also live in natural language, the Agent often has to interpret the plan again as it advances. Dynamic Workflow moves that control flow into code.",
+    featureOneTitle: "Code holds the plan",
     featureOneBody:
-      "Phases, pipelines, parallel work, and nested workflows stay explicit in code.",
-    featureTwoTitle: "Agents stay replaceable",
+      "Phases, branches, Barriers, retry limits, and stopping rules live in code, where they can be reviewed and tested.",
+    featureTwoTitle: "Agents handle judgment",
     featureTwoBody:
-      "Bind one stable contract to Codex today—or another complete agent loop tomorrow.",
-    featureThreeTitle: "Observable at the edge",
+      "agent() starts a complete ReAct Loop with tools and its own Context—not a one-shot Prompt completion.",
+    featureThreeTitle: "Schema gives code a stable shape",
     featureThreeBody:
-      "JSON Lines events make every run traceable across process boundaries.",
-    buildLabel: "BUILD THE FLOW",
-    buildTitle: "Readable on purpose.<br>Powerful in motion.",
+      "When code consumes an Agent result, JSON Schema validates its shape before the next step runs.",
+    buildLabel: "THE WORKFLOW IS CODE",
+    buildTitle: "Ordinary TypeScript.<br>Only agent() starts an Agent Loop.",
     buildIntro:
-      "Compose semantic agent work inside deterministic control flow. No hidden globals. No orchestration magic.",
-    readGuide: "Read the getting started guide",
-    footerTagline: "Open source. Built in the open.",
+      "Use arrays, branches, loops, and concurrency for the mechanical work. Call agent() when a step needs understanding, exploration, or judgment.",
+    readGuide: "Read the Workflow API contract",
+    footerTagline: "Code handles mechanics. Agents handle judgment.",
   },
   "zh-CN": {
-    title: "deer-workflow — 让 Agent 有序行动。",
+    title: "deer-workflow — 代码负责流程，Agent 负责判断。",
     description:
-      "deer-workflow — 面向可替换 AI Agent 的确定性 TypeScript 编排运行时。",
-    navWhy: "为何选择",
-    navBuild: "开始构建",
+      "deer-workflow 结合程序的稳定性和 Agent 的主观能动性：代码负责流程，Agent 负责判断。",
+    navWhy: "为什么",
+    navBuild: "如何工作",
     navDocs: "文档",
     docsHref:
       "https://github.com/deerwork-ai/deer-workflow/blob/main/README.zh-CN.md",
     guideHref:
-      "https://github.com/deerwork-ai/deer-workflow/blob/main/README.zh-CN.md#如何使用",
-    eyebrow: "开源 Agent 编排运行时",
-    heroTitle: "让 Agent<span>有序行动。</span>",
+      "https://github.com/deerwork-ai/deer-workflow/blob/main/docs/api.zh-CN.md#workflow-模块契约",
+    eyebrow: "程序的稳定性 × Agent 的主观能动性",
+    heroTitle: "代码负责流程。<span>Agent 负责判断。</span>",
     heroIntro:
-      "让必须可预测的工作交给确定性的 TypeScript 编排，让需要智能的部分交给随时可替换的 Agent 运行时。",
-    startBuilding: "开始构建",
+      "Dynamic Workflow 把编排写进 TypeScript：顺序、并发与停止规则变得显式；只有需要理解和判断时，才运行完整的 Agent Loop。",
+    startBuilding: "查看工作方式",
     copy: "复制",
     copied: "已复制",
     select: "请手动复制",
-    runtimeTypes: "01 / 严格 TYPESCRIPT",
-    runtimeCodex: "02 / CODEX 就绪",
-    runtimeNeutral: "03 / 厂商无关",
+    runtimeTypes: "01 / 代码负责计划",
+    runtimeCodex: "02 / Agent 负责判断",
+    runtimeNeutral: "03 / 人类保留责任",
+    visualPlan: "计划",
+    visualAgent: "Agent",
+    visualResult: "结果",
+    tickerOne: "代码负责计划",
+    tickerTwo: "Agent 负责判断",
+    tickerThree: "Skill 承载知识 · Workflow 让步骤变得显式",
     explore: "探索运行机制",
-    whyLabel: "为何选择 DEER WORKFLOW",
-    whyTitle: "路径保持清晰。<br><em>智能自由替换。</em>",
+    whyLabel: "为什么需要 DYNAMIC WORKFLOW",
+    whyTitle: "并不是所有事情<br><em>都值得再问模型一遍。</em>",
     whyIntro:
-      "工作流始终清晰、可测试；Agent 层始终开放、可替换，为下一代运行时做好准备。",
-    featureOneTitle: "确定性源于设计",
-    featureOneBody: "阶段、管道、并行任务与嵌套工作流，都在代码中显式表达。",
-    featureTwoTitle: "Agent 随时可换",
+      "Skill 很适合承载知识与策略。但当机械步骤也写在自然语言里，Agent 每推进一步，往往还要重新读取上下文、判断下一步。Dynamic Workflow 把这部分控制流移进代码。",
+    featureOneTitle: "代码负责计划",
+    featureOneBody:
+      "Phase、分支、Barrier、重试上限与停止规则都写进代码，因此可以 Review，也可以测试。",
+    featureTwoTitle: "Agent 负责判断",
     featureTwoBody:
-      "今天接入 Codex，明天换成另一套完整 Agent Loop，稳定契约始终不变。",
-    featureThreeTitle: "边界全程可观测",
-    featureThreeBody: "JSON Lines 事件让每次运行跨越进程边界后仍然清晰可追踪。",
-    buildLabel: "构建工作流",
-    buildTitle: "刻意保持可读。<br>运行依然强大。",
+      "agent() 启动带 Tool 与独立 Context 的完整 ReAct Loop，而不是一次 Prompt Completion。",
+    featureThreeTitle: "Schema 让结构可校验",
+    featureThreeBody:
+      "当结果还要交给代码消费，JSON Schema 会先校验输出结构，再让下一步继续。",
+    buildLabel: "Workflow 就是一段代码",
+    buildTitle: "普通 TypeScript。<br>只有 agent() 启动 Agent Loop。",
     buildIntro:
-      "在确定性控制流中组合 Agent 的语义工作。没有隐藏全局，也没有编排魔法。",
-    readGuide: "阅读快速入门指南",
-    footerTagline: "开放源码，公开构建。",
+      "数组、分支、循环和并发负责机械工作；需要理解、探索与判断时，再调用 agent()。",
+    readGuide: "阅读 Workflow API 契约",
+    footerTagline: "机械步骤交给代码，判断留给 Agent。",
   },
 };
 
@@ -297,6 +312,9 @@ function setLanguage(language, persist = false) {
   document.documentElement.lang = activeLanguage;
   document.title = copy.title;
   document.querySelector('meta[name="description"]').content = copy.description;
+  document.querySelector('meta[property="og:title"]').content = copy.title;
+  document.querySelector('meta[property="og:description"]').content =
+    copy.description;
   document.querySelector("#docs-link").href = copy.docsHref;
   document.querySelector("#guide-link").href = copy.guideHref;
 

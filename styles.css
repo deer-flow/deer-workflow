@@ -44,6 +44,7 @@ html[lang="zh-CN"] .ticker span {
   font-family: "Noto Sans SC", sans-serif;
   font-weight: 900;
   letter-spacing: -0.065em;
+  text-transform: none;
 }
 
 html[lang="zh-CN"] .eyebrow,
@@ -51,6 +52,7 @@ html[lang="zh-CN"] nav,
 html[lang="zh-CN"] .primary-button,
 html[lang="zh-CN"] .build-copy > a {
   letter-spacing: 0.08em;
+  text-transform: none;
 }
 
 a,
@@ -430,6 +432,10 @@ h1 span {
 
 .visual-label span {
   color: var(--acid);
+}
+
+.visual-label b {
+  font-weight: 300;
 }
 
 .label-input {
