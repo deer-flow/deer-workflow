@@ -42,7 +42,7 @@
         <a href="#build" data-i18n="navBuild">Build</a>
         <a
           id="docs-link"
-          href="https://github.com/deer-flow/deer-workflow#readme"
+          href="https://github.com/deerwork-ai/deer-workflow#readme"
           data-i18n="navDocs"
           >Docs</a
         >
@@ -58,7 +58,7 @@
         </div>
         <a
           class="star-button"
-          href="https://github.com/deer-flow/deer-workflow"
+          href="https://github.com/deerwork-ai/deer-workflow"
           target="_blank"
           rel="noreferrer"
         >
@@ -99,7 +99,7 @@
             <button
               class="copy-command"
               type="button"
-              data-copy="bun install --global git+https://github.com/deer-flow/deer-workflow.git"
+              data-copy="bun install --global git+https://github.com/deerwork-ai/deer-workflow.git"
             >
               <code>bun install --global git+https://…</code>
               <span class="copy-label" data-i18n="copy">Copy</span>
@@ -225,7 +225,7 @@
           </p>
           <a
             id="guide-link"
-            href="https://github.com/deer-flow/deer-workflow#how-to-use"
+            href="https://github.com/deerwork-ai/deer-workflow#how-to-use"
           >
             <span data-i18n="readGuide">Read the getting started guide</span>
             <span aria-hidden="true">↗</span>
@@ -240,17 +240,25 @@
           <pre><code><span class="code-faint">01</span> <span class="code-pink">import</span> { agent, parallel, phase } <span class="code-pink">from</span>
 <span class="code-faint">02</span>   <span class="code-green">"@deer-flow/workflow"</span>;
 <span class="code-faint">03</span>
-<span class="code-faint">04</span> <span class="code-pink">export default async function</span> <span class="code-blue">run</span>(args) {
-<span class="code-faint">05</span>   <span class="code-pink">const</span> signals = <span class="code-pink">await</span> <span class="code-blue">phase</span>(
-<span class="code-faint">06</span>     <span class="code-green">"Map the territory"</span>,
-<span class="code-faint">07</span>     () => <span class="code-blue">parallel</span>([
-<span class="code-faint">08</span>       <span class="code-blue">agent</span>(<span class="code-green">`Research ${args.topic}`</span>),
-<span class="code-faint">09</span>       <span class="code-blue">agent</span>(<span class="code-green">`Challenge assumptions`</span>),
-<span class="code-faint">10</span>     ]),
-<span class="code-faint">11</span>   );
+<span class="code-faint">04</span> <span class="code-pink">export const</span> meta = {
+<span class="code-faint">05</span>   name: <span class="code-green">"research-synthesis"</span>,
+<span class="code-faint">06</span>   description: <span class="code-green">"Researches and synthesizes a topic."</span>,
+<span class="code-faint">07</span>   phases: [
+<span class="code-faint">08</span>     { title: <span class="code-green">"Map the territory"</span> },
+<span class="code-faint">09</span>     { title: <span class="code-green">"Synthesize"</span> },
+<span class="code-faint">10</span>   ],
+<span class="code-faint">11</span> };
 <span class="code-faint">12</span>
-<span class="code-faint">13</span>   <span class="code-pink">return</span> <span class="code-blue">agent</span>(<span class="code-green">`Synthesize ${signals}`</span>);
-<span class="code-faint">14</span> }</code></pre>
+<span class="code-faint">13</span> <span class="code-pink">export default async function</span> <span class="code-blue">run</span>(args) {
+<span class="code-faint">14</span>   <span class="code-blue">phase</span>(<span class="code-green">"Map the territory"</span>);
+<span class="code-faint">15</span>   <span class="code-pink">const</span> signals = <span class="code-pink">await</span> <span class="code-blue">parallel</span>([
+<span class="code-faint">16</span>     () => <span class="code-blue">agent</span>(<span class="code-green">`Research ${args.topic}`</span>),
+<span class="code-faint">17</span>     () => <span class="code-blue">agent</span>(<span class="code-green">"Challenge assumptions"</span>),
+<span class="code-faint">18</span>   ]);
+<span class="code-faint">19</span>
+<span class="code-faint">20</span>   <span class="code-blue">phase</span>(<span class="code-green">"Synthesize"</span>);
+<span class="code-faint">21</span>   <span class="code-pink">return</span> <span class="code-blue">agent</span>(<span class="code-green">`Synthesize ${signals}`</span>);
+<span class="code-faint">22</span> }</code></pre>
           <div class="code-status">
             <span><i></i> FLOW READY</span>
             <span>STRICT TYPES / ASYNC RUNTIME</span>
@@ -269,8 +277,8 @@
       </a>
       <p data-i18n="footerTagline">Open source. Built in the open.</p>
       <div>
-        <a href="https://github.com/deer-flow/deer-workflow">GitHub</a>
-        <a href="https://github.com/deer-flow/deer-workflow/blob/main/LICENSE"
+        <a href="https://github.com/deerwork-ai/deer-workflow">GitHub</a>
+        <a href="https://github.com/deerwork-ai/deer-workflow/blob/main/LICENSE"
           >MIT License</a
         >
       </div>

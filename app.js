@@ -212,8 +212,8 @@ const translations = {
     navWhy: "Why",
     navBuild: "Build",
     navDocs: "Docs",
-    docsHref: "https://github.com/deer-flow/deer-workflow#readme",
-    guideHref: "https://github.com/deer-flow/deer-workflow#how-to-use",
+    docsHref: "https://github.com/deerwork-ai/deer-workflow#readme",
+    guideHref: "https://github.com/deerwork-ai/deer-workflow#how-to-use",
     eyebrow: "Open-source agent orchestration",
     heroTitle: "Make agents<span>move with intent.</span>",
     heroIntro:
@@ -254,9 +254,9 @@ const translations = {
     navBuild: "开始构建",
     navDocs: "文档",
     docsHref:
-      "https://github.com/deer-flow/deer-workflow/blob/main/README.zh-CN.md",
+      "https://github.com/deerwork-ai/deer-workflow/blob/main/README.zh-CN.md",
     guideHref:
-      "https://github.com/deer-flow/deer-workflow/blob/main/README.zh-CN.md#如何使用",
+      "https://github.com/deerwork-ai/deer-workflow/blob/main/README.zh-CN.md#如何使用",
     eyebrow: "开源 Agent 编排运行时",
     heroTitle: "让 Agent<span>有序行动。</span>",
     heroIntro:
@@ -291,7 +291,7 @@ const translations = {
 
 let activeLanguage = "en";
 
-function setLanguage(language) {
+function setLanguage(language, persist = false) {
   activeLanguage = translations[language] ? language : "en";
   const copy = translations[activeLanguage];
   document.documentElement.lang = activeLanguage;
@@ -315,18 +315,19 @@ function setLanguage(language) {
     );
   }
 
-  localStorage.setItem("deer-workflow-language", activeLanguage);
+  if (persist) {
+    localStorage.setItem("deer-workflow-language-v2", activeLanguage);
+  }
 }
 
 for (const button of document.querySelectorAll("[data-lang]")) {
-  button.addEventListener("click", () => setLanguage(button.dataset.lang));
+  button.addEventListener("click", () =>
+    setLanguage(button.dataset.lang, true),
+  );
 }
 
-const savedLanguage = localStorage.getItem("deer-workflow-language");
-const preferredLanguage = navigator.language.toLowerCase().startsWith("zh")
-  ? "zh-CN"
-  : "en";
-setLanguage(savedLanguage || preferredLanguage);
+const savedLanguage = localStorage.getItem("deer-workflow-language-v2");
+setLanguage(savedLanguage || "en");
 
 copyButton.addEventListener("click", async () => {
   const label = copyButton.querySelector(".copy-label");
