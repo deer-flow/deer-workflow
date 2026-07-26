@@ -502,6 +502,17 @@ scene.add(new THREE.AmbientLight(new THREE.Color("#e9ffbc"), 0.8));
 
 const pointer = { x: 0, y: 0 };
 const cameraPointer = { x: 0, y: 0 };
+const orbitControl = {
+  dragging: false,
+  lastX: 0,
+  lastY: 0,
+  yaw: 0,
+  pitch: 0,
+  zoom: 0,
+  targetYaw: 0,
+  targetPitch: 0,
+  targetZoom: 0,
+};
 let frameId = 0;
 let startTime = performance.now();
 let manualTime = null;
@@ -522,15 +533,26 @@ function renderScene(time) {
 
   cameraPointer.x += (pointer.x - cameraPointer.x) * 0.045;
   cameraPointer.y += (pointer.y - cameraPointer.y) * 0.045;
-  const orbitAngle = ambient * 0.042 + cameraPointer.x * 0.28;
+  orbitControl.yaw += (orbitControl.targetYaw - orbitControl.yaw) * 0.075;
+  orbitControl.pitch += (orbitControl.targetPitch - orbitControl.pitch) * 0.075;
+  orbitControl.zoom += (orbitControl.targetZoom - orbitControl.zoom) * 0.065;
+
+  const orbitAngle =
+    ambient * 0.042 + orbitControl.yaw + cameraPointer.x * 0.12;
   const orbitRadius =
-    9.15 + Math.sin(ambient * 0.075) * 0.82 + cameraPointer.y * 0.24;
+    9.15 +
+    Math.sin(ambient * 0.075) * 0.82 +
+    orbitControl.zoom +
+    cameraPointer.y * 0.12;
   camera.position.set(
     Math.sin(orbitAngle) * orbitRadius,
-    0.12 + Math.cos(ambient * 0.06) * 0.34 - cameraPointer.y * 1.05,
+    0.12 +
+      Math.cos(ambient * 0.06) * 0.34 +
+      Math.sin(orbitControl.pitch) * orbitRadius * 0.72 -
+      cameraPointer.y * 0.5,
     Math.cos(orbitAngle) * orbitRadius,
   );
-  camera.lookAt(0, 0.12 + cameraPointer.y * 0.14, 0);
+  camera.lookAt(0, 0.12 + cameraPointer.y * 0.08, 0);
 
   core.rotation.y +=
     (pointer.x * 0.15 + Math.sin(ambient * 0.05) * 0.04 - core.rotation.y) *
@@ -553,10 +575,56 @@ function updatePointer(event) {
   const bounds = visual.getBoundingClientRect();
   pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
   pointer.y = ((event.clientY - bounds.top) / bounds.height) * 2 - 1;
+
+  if (!orbitControl.dragging) return;
+
+  const deltaX = event.clientX - orbitControl.lastX;
+  const deltaY = event.clientY - orbitControl.lastY;
+  orbitControl.targetYaw += deltaX * 0.006;
+  orbitControl.targetPitch = THREE.MathUtils.clamp(
+    orbitControl.targetPitch - deltaY * 0.0045,
+    -0.4,
+    0.4,
+  );
+  orbitControl.lastX = event.clientX;
+  orbitControl.lastY = event.clientY;
 }
 
+visual.addEventListener("pointerdown", (event) => {
+  if (event.pointerType === "touch" || event.button !== 0) return;
+  orbitControl.dragging = true;
+  orbitControl.lastX = event.clientX;
+  orbitControl.lastY = event.clientY;
+  visual.setPointerCapture(event.pointerId);
+  visual.classList.add("is-orbiting");
+});
 visual.addEventListener("pointermove", updatePointer, { passive: true });
+
+function endOrbit(event) {
+  if (!orbitControl.dragging) return;
+  orbitControl.dragging = false;
+  if (visual.hasPointerCapture(event.pointerId)) {
+    visual.releasePointerCapture(event.pointerId);
+  }
+  visual.classList.remove("is-orbiting");
+}
+
+visual.addEventListener("pointerup", endOrbit);
+visual.addEventListener("pointercancel", endOrbit);
+visual.addEventListener(
+  "wheel",
+  (event) => {
+    event.preventDefault();
+    orbitControl.targetZoom = THREE.MathUtils.clamp(
+      orbitControl.targetZoom + event.deltaY * 0.003,
+      -2.15,
+      2.8,
+    );
+  },
+  { passive: false },
+);
 visual.addEventListener("pointerleave", () => {
+  if (orbitControl.dragging) return;
   pointer.x = 0;
   pointer.y = 0;
 });
