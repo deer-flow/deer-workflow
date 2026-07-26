@@ -522,18 +522,18 @@ function renderScene(time) {
 
   cameraPointer.x += (pointer.x - cameraPointer.x) * 0.045;
   cameraPointer.y += (pointer.y - cameraPointer.y) * 0.045;
+  const orbitAngle = ambient * 0.042 + cameraPointer.x * 0.28;
+  const orbitRadius =
+    9.15 + Math.sin(ambient * 0.075) * 0.82 + cameraPointer.y * 0.24;
   camera.position.set(
-    Math.sin(ambient * 0.12) * 0.95 + cameraPointer.x * 1.35,
-    0.12 + Math.cos(ambient * 0.09) * 0.28 - cameraPointer.y * 0.82,
-    9.15 +
-      Math.sin(ambient * 0.075) * 0.5 -
-      Math.abs(cameraPointer.x) * 0.34 +
-      cameraPointer.y * 0.18,
+    Math.sin(orbitAngle) * orbitRadius,
+    0.12 + Math.cos(ambient * 0.06) * 0.34 - cameraPointer.y * 1.05,
+    Math.cos(orbitAngle) * orbitRadius,
   );
-  camera.lookAt(cameraPointer.x * -0.16, 0.12 + cameraPointer.y * 0.12, 0);
+  camera.lookAt(0, 0.12 + cameraPointer.y * 0.14, 0);
 
   core.rotation.y +=
-    (pointer.x * 0.3 + Math.sin(ambient * 0.12) * 0.17 - core.rotation.y) *
+    (pointer.x * 0.15 + Math.sin(ambient * 0.05) * 0.04 - core.rotation.y) *
     0.035;
   core.rotation.x +=
     (-pointer.y * 0.24 + Math.sin(ambient * 0.3) * 0.08 - core.rotation.x) *
@@ -621,10 +621,10 @@ const translations = {
     featureThreeTitle: "Schema gives code a stable shape",
     featureThreeBody:
       "When code consumes an Agent result, JSON Schema validates its shape before the next step runs.",
-    exampleLabel: "RUN A REAL WORKFLOW",
-    exampleTitle: "Run the<br><em>deep-research</em> example.",
+    exampleLabel: "CREATE & RUN",
+    exampleTitle: "Create one.<br><em>Run deep-research.</em>",
     exampleIntro:
-      "From the repository root, give the Workflow a question. It plans the research, runs independent angles in parallel, and synthesizes the result.",
+      "Generate a Workflow from one sentence, or run the bundled Deep Research example from the repository root.",
     openExample: "Open the example",
     exampleHref:
       "https://github.com/deerwork-ai/deer-workflow/tree/main/examples/deep-research",
@@ -677,10 +677,10 @@ const translations = {
     featureThreeTitle: "Schema 让结构可校验",
     featureThreeBody:
       "当结果还要交给代码消费，JSON Schema 会先校验输出结构，再让下一步继续。",
-    exampleLabel: "运行一个真实的 WORKFLOW",
-    exampleTitle: "跑一下<br><em>Deep Research</em> 示例。",
+    exampleLabel: "创建并运行 WORKFLOW",
+    exampleTitle: "创建一个。<br><em>运行 Deep Research。</em>",
     exampleIntro:
-      "在仓库根目录给 Workflow 一个问题。它会先制定研究计划，再并行探索不同角度，最后汇编结果。",
+      "用一句话生成 Workflow，或者直接在仓库根目录运行内置的 Deep Research 示例。",
     openExample: "查看示例源码",
     exampleHref:
       "https://github.com/deerwork-ai/deer-workflow/tree/main/examples/deep-research",

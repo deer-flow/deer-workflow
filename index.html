@@ -230,15 +230,14 @@
         <div class="example-copy">
           <div class="section-index">
             <span>02</span>
-            <p data-i18n="exampleLabel">RUN A REAL WORKFLOW</p>
+            <p data-i18n="exampleLabel">CREATE &amp; RUN</p>
           </div>
           <h2 id="example-title" data-i18n-html="exampleTitle">
-            Run the<br /><em>deep-research</em> example.
+            Create one.<br /><em>Run deep-research.</em>
           </h2>
           <p data-i18n="exampleIntro">
-            From the repository root, give the Workflow a question. It plans the
-            research, runs independent angles in parallel, and synthesizes the
-            result.
+            Generate a Workflow from one sentence, or run the bundled Deep
+            Research example from the repository root.
           </p>
           <a
             id="example-link"
@@ -249,26 +248,52 @@
           </a>
         </div>
 
-        <div class="example-terminal">
-          <div class="terminal-chrome">
-            <span>TERMINAL / DEEP RESEARCH</span>
-            <span>READY</span>
-          </div>
-          <button
-            class="copy-command example-command"
-            type="button"
-            data-copy='deer-workflow run ./examples/deep-research/workflow.ts --input &apos;{"question":"How do Dynamic Workflows work?"}&apos;'
-          >
-            <span class="terminal-prompt" aria-hidden="true">$</span>
-            <code
-              >deer-workflow run ./examples/deep-research/workflow.ts --input
-              '{"question":"How do Dynamic Workflows work?"}'</code
+        <div class="example-terminal-stack">
+          <div class="example-terminal">
+            <div class="terminal-chrome">
+              <span>TERMINAL / CREATE</span>
+              <span>GENERATE</span>
+            </div>
+            <button
+              class="copy-command example-command"
+              type="button"
+              data-copy='deer-workflow create "Build a deep research Workflow with planning, parallel research, and synthesis." &gt; workflow.ts'
             >
-            <span class="copy-label" data-i18n="copy">Copy</span>
-          </button>
-          <div class="terminal-status">
-            <span><i></i> JSONL EVENTS → STDERR</span>
-            <span>RESULT → STDOUT</span>
+              <span class="terminal-prompt" aria-hidden="true">$</span>
+              <code
+                >deer-workflow create "Build a deep research Workflow with
+                planning, parallel research, and synthesis." &gt;
+                workflow.ts</code
+              >
+              <span class="copy-label" data-i18n="copy">Copy</span>
+            </button>
+            <div class="terminal-status">
+              <span><i></i> PROMPT → CODEX AGENT</span>
+              <span>WORKFLOW.TS → STDOUT</span>
+            </div>
+          </div>
+
+          <div class="example-terminal">
+            <div class="terminal-chrome">
+              <span>TERMINAL / DEEP RESEARCH</span>
+              <span>RUN</span>
+            </div>
+            <button
+              class="copy-command example-command"
+              type="button"
+              data-copy='deer-workflow run ./examples/deep-research/workflow.ts --input &apos;{"question":"How do Dynamic Workflows work?"}&apos;'
+            >
+              <span class="terminal-prompt" aria-hidden="true">$</span>
+              <code
+                >deer-workflow run ./examples/deep-research/workflow.ts --input
+                '{"question":"How do Dynamic Workflows work?"}'</code
+              >
+              <span class="copy-label" data-i18n="copy">Copy</span>
+            </button>
+            <div class="terminal-status">
+              <span><i></i> JSONL EVENTS → STDERR</span>
+              <span>RESULT → STDOUT</span>
+            </div>
           </div>
         </div>
       </section>

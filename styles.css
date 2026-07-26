@@ -91,7 +91,7 @@ button {
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   width: 100%;
-  padding: 24px 3.2vw;
+  padding: 16px 3.2vw;
   border-bottom: 1px solid var(--line);
   opacity: 0;
   animation: enter-down 500ms var(--ease-out) 80ms forwards;
@@ -236,7 +236,7 @@ nav a:hover::after {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(380px, 0.95fr);
   min-height: 100svh;
-  padding: 132px 3.2vw 72px;
+  padding: 104px 3.2vw 72px;
   isolation: isolate;
 }
 
@@ -256,6 +256,7 @@ nav a:hover::after {
   z-index: 2;
   align-self: center;
   padding: 4vh 0 6vh;
+  transform: translateY(-4vh);
 }
 
 .eyebrow {
@@ -399,6 +400,7 @@ h1 span {
 .hero-visual {
   position: relative;
   z-index: 1;
+  top: -3vh;
   min-height: 570px;
   opacity: 0;
   animation: core-enter 800ms var(--ease-out) 180ms forwards;
@@ -661,7 +663,7 @@ h1 span {
   grid-template-columns: 0.72fr 1.28fr;
   align-items: center;
   gap: 8vw;
-  min-height: 620px;
+  min-height: 760px;
   padding: 110px 3.2vw;
   color: var(--ink);
   background: var(--acid);
@@ -716,6 +718,15 @@ h1 span {
   border: 1px solid rgba(7, 8, 6, 0.9);
   background: var(--ink);
   box-shadow: 28px 28px 0 rgba(7, 8, 6, 0.12);
+}
+
+.example-terminal-stack {
+  display: grid;
+  gap: 20px;
+}
+
+.example-terminal-stack .example-terminal:last-child {
+  transform: translateX(28px);
 }
 
 .terminal-chrome,
@@ -997,9 +1008,11 @@ footer a:hover {
 
   .hero-copy {
     padding-bottom: 0;
+    transform: none;
   }
 
   .hero-visual {
+    top: 0;
     min-height: min(82vw, 680px);
   }
 
@@ -1029,7 +1042,7 @@ footer a:hover {
 @media (max-width: 720px) {
   .site-header {
     grid-template-columns: 1fr auto;
-    padding: 18px 20px;
+    padding: 14px 20px;
   }
 
   nav {
@@ -1137,6 +1150,14 @@ footer a:hover {
 
   .example-terminal {
     box-shadow: 12px 12px 0 rgba(7, 8, 6, 0.12);
+  }
+
+  .example-terminal-stack {
+    gap: 16px;
+  }
+
+  .example-terminal-stack .example-terminal:last-child {
+    transform: none;
   }
 
   .example-command {
