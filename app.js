@@ -27,6 +27,43 @@ scene.add(core);
 const acid = new THREE.Color("#d9ff56");
 const paper = new THREE.Color("#f0eee6");
 const dark = new THREE.Color("#151812");
+const deerMotionShader = `
+  vec2 rotateDeerPart(vec2 point, vec2 pivot, float angle) {
+    float sine = sin(angle);
+    float cosine = cos(angle);
+    vec2 offset = point - pivot;
+    return pivot + mat2(cosine, -sine, sine, cosine) * offset;
+  }
+
+  vec3 animateDeer(vec3 source, float time) {
+    vec3 animated = source;
+    float headMask =
+      (1.0 - smoothstep(-0.72, -0.42, source.x)) *
+      smoothstep(3.08, 3.48, source.y);
+    float nod = sin(time * 0.96) * 0.105;
+    float turn = sin(time * 0.72 + 0.8) * 0.08;
+    float tilt = sin(time * 0.84 + 1.7) * 0.05;
+    vec2 nodded = rotateDeerPart(
+      source.xy,
+      vec2(-0.56, 3.42),
+      nod
+    );
+    animated.xy = mix(animated.xy, nodded, headMask);
+    vec2 turned = rotateDeerPart(
+      animated.xz,
+      vec2(-0.56, 0.0),
+      turn
+    );
+    animated.xz = mix(animated.xz, turned, headMask);
+    vec2 tilted = rotateDeerPart(
+      animated.yz,
+      vec2(3.42, 0.0),
+      tilt
+    );
+    animated.yz = mix(animated.yz, tilted, headMask);
+    return animated;
+  }
+`;
 
 const deerPivot = new THREE.Group();
 deerPivot.rotation.y = 0.52;
@@ -46,18 +83,36 @@ const deerGhostMaterial = new THREE.MeshPhysicalMaterial({
   opacity: 0.075,
   depthWrite: false,
 });
+const deerGhostTime = { value: 0 };
+deerGhostMaterial.onBeforeCompile = (shader) => {
+  shader.uniforms.uTime = deerGhostTime;
+  shader.vertexShader = shader.vertexShader
+    .replace(
+      "#include <common>",
+      `#include <common>
+      uniform float uTime;
+      ${deerMotionShader}`,
+    )
+    .replace(
+      "#include <begin_vertex>",
+      "vec3 transformed = animateDeer(position, uTime);",
+    );
+};
 
 const deerEdgeMaterial = new THREE.ShaderMaterial({
   uniforms: {
     uTime: { value: 0 },
   },
   vertexShader: `
+    ${deerMotionShader}
     varying float vFlow;
+    uniform float uTime;
 
     void main() {
-      vFlow = position.x * 0.28 + position.y * 0.22 + position.z * 0.16;
+      vec3 animated = animateDeer(position, uTime);
+      vFlow = animated.x * 0.28 + animated.y * 0.22 + animated.z * 0.16;
       gl_Position =
-        projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        projectionMatrix * modelViewMatrix * vec4(animated, 1.0);
     }
   `,
   fragmentShader: `
@@ -90,6 +145,7 @@ const deerParticleMaterial = new THREE.ShaderMaterial({
     uTime: { value: 0 },
   },
   vertexShader: `
+    ${deerMotionShader}
     attribute float aPhase;
     attribute float aSize;
     attribute float aMix;
@@ -120,6 +176,7 @@ const deerParticleMaterial = new THREE.ShaderMaterial({
       float surfacePulse =
         sin(uTime * 0.72 + displaced.y * 3.8 + aPhase) * 0.012;
       displaced += normal * surfacePulse;
+      displaced = animateDeer(displaced, uTime);
 
       vec4 viewPosition = modelViewMatrix * vec4(displaced, 1.0);
       gl_Position = projectionMatrix * viewPosition;
@@ -173,6 +230,7 @@ const deerFillMaterial = new THREE.ShaderMaterial({
     uTime: { value: 0 },
   },
   vertexShader: `
+    ${deerMotionShader}
     attribute float aPhase;
     attribute float aSize;
     attribute float aMix;
@@ -184,6 +242,7 @@ const deerFillMaterial = new THREE.ShaderMaterial({
     void main() {
       vec3 displaced =
         position + normal * sin(uTime * 0.38 + aPhase) * 0.006;
+      displaced = animateDeer(displaced, uTime);
       vec4 viewPosition = modelViewMatrix * vec4(displaced, 1.0);
       gl_Position = projectionMatrix * viewPosition;
       gl_PointSize = clamp(
@@ -478,10 +537,11 @@ const ringMaterial = new THREE.MeshBasicMaterial({
   side: THREE.DoubleSide,
 });
 
-for (const [radius, rotation] of [
-  [2.25, [1.05, 0.2, 0.1]],
-  [2.72, [0.4, 1.1, 0.7]],
-  [3.05, [1.6, 0.7, -0.45]],
+const orbitalRings = [];
+for (const [radius, rotation, velocity] of [
+  [2.25, [1.05, 0.2, 0.1], [0.035, 0.065, -0.022]],
+  [2.72, [0.4, 1.1, 0.7], [-0.028, 0.042, 0.055]],
+  [3.05, [1.6, 0.7, -0.45], [0.052, -0.031, 0.018]],
 ]) {
   const ring = new THREE.Mesh(
     new THREE.TorusGeometry(radius, 0.008, 6, 160),
@@ -489,6 +549,7 @@ for (const [radius, rotation] of [
   );
   ring.rotation.set(...rotation);
   core.add(ring);
+  orbitalRings.push({ ring, rotation, velocity });
 }
 
 const glow = new THREE.PointLight(acid, 16, 11, 1.6);
@@ -530,6 +591,7 @@ function renderScene(time) {
   deerParticleMaterial.uniforms.uTime.value = ambient;
   deerFillMaterial.uniforms.uTime.value = ambient;
   deerEdgeMaterial.uniforms.uTime.value = ambient;
+  deerGhostTime.value = ambient;
 
   cameraPointer.x += (pointer.x - cameraPointer.x) * 0.045;
   cameraPointer.y += (pointer.y - cameraPointer.y) * 0.045;
@@ -563,6 +625,13 @@ function renderScene(time) {
   deerPivot.position.y = 0.48 + Math.sin(ambient * 0.7) * 0.045;
   frame.rotation.y = 0.65 - ambient * 0.08;
   frame.rotation.z = 0.12 + ambient * 0.035;
+  for (const { ring, rotation, velocity } of orbitalRings) {
+    ring.rotation.set(
+      rotation[0] + ambient * velocity[0],
+      rotation[1] + ambient * velocity[1],
+      rotation[2] + ambient * velocity[2],
+    );
+  }
   renderer.render(scene, camera);
 }
 
