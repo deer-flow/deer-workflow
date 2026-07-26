@@ -47,6 +47,41 @@ html[lang="zh-CN"] .ticker span {
   text-transform: none;
 }
 
+html[lang="zh-CN"] h1 {
+  max-width: 780px;
+  font-size: clamp(72px, 7.1vw, 126px);
+  letter-spacing: -0.055em;
+  line-height: 0.9;
+}
+
+html[lang="zh-CN"] h1 span {
+  margin-top: 0.1em;
+}
+
+html[lang="zh-CN"] .hero-intro {
+  max-width: 560px;
+  font-size: clamp(12px, 1vw, 15px);
+  line-height: 1.8;
+}
+
+html[lang="zh-CN"] .principles-heading h2 {
+  font-size: clamp(54px, 6.1vw, 98px);
+  letter-spacing: -0.05em;
+  line-height: 1.02;
+}
+
+html[lang="zh-CN"] .example-copy h2 {
+  font-size: clamp(44px, 5.1vw, 78px);
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+html[lang="zh-CN"] .build-copy h2 {
+  font-size: clamp(40px, 4.3vw, 68px);
+  letter-spacing: -0.045em;
+  line-height: 1.04;
+}
+
 html[lang="zh-CN"] .eyebrow,
 html[lang="zh-CN"] nav,
 html[lang="zh-CN"] .primary-button,
@@ -253,6 +288,7 @@ nav a:hover::after {
 }
 
 .hero-copy {
+  position: relative;
   z-index: 2;
   align-self: center;
   padding: 4vh 0 6vh;
@@ -1103,6 +1139,18 @@ footer a:hover {
 
   h1 {
     font-size: clamp(52px, 17vw, 88px);
+  }
+
+  html[lang="zh-CN"] h1 {
+    font-size: clamp(50px, 14vw, 72px);
+    line-height: 0.94;
+  }
+
+  html[lang="zh-CN"] .principles-heading h2,
+  html[lang="zh-CN"] .example-copy h2,
+  html[lang="zh-CN"] .build-copy h2 {
+    font-size: clamp(38px, 12vw, 58px);
+    line-height: 1.05;
   }
 
   .hero-actions {

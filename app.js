@@ -538,7 +538,7 @@ function renderScene(time) {
   orbitControl.zoom += (orbitControl.targetZoom - orbitControl.zoom) * 0.065;
 
   const orbitAngle =
-    ambient * 0.028 + orbitControl.yaw + cameraPointer.x * 0.12;
+    Math.sin(ambient * 0.09) * 0.16 + orbitControl.yaw + cameraPointer.x * 0.1;
   const orbitRadius =
     9.15 +
     Math.sin(ambient * 0.075) * 0.82 +
@@ -580,7 +580,11 @@ function updatePointer(event) {
 
   const deltaX = event.clientX - orbitControl.lastX;
   const deltaY = event.clientY - orbitControl.lastY;
-  orbitControl.targetYaw += deltaX * 0.006;
+  orbitControl.targetYaw = THREE.MathUtils.clamp(
+    orbitControl.targetYaw + deltaX * 0.0045,
+    -0.52,
+    0.52,
+  );
   orbitControl.targetPitch = THREE.MathUtils.clamp(
     orbitControl.targetPitch - deltaY * 0.0045,
     -0.4,
@@ -714,10 +718,10 @@ const translations = {
       "https://github.com/deerwork-ai/deer-workflow/blob/main/README.zh-CN.md",
     guideHref:
       "https://github.com/deerwork-ai/deer-workflow/blob/main/docs/api.zh-CN.md#workflow-模块契约",
-    eyebrow: "程序的稳定性 × Agent 的主观能动性",
-    heroTitle: "代码负责流程。<span>Agent 负责判断。</span>",
+    eyebrow: "程序稳定性 × Agent 主动性",
+    heroTitle: "让代码驱动<br>流程。<span>Agent 负责<br>判断。</span>",
     heroIntro:
-      "Dynamic Workflow 把编排写进 TypeScript：顺序、并发与停止规则变得显式；只有需要理解和判断时，才运行完整的 Agent Loop。",
+      "Dynamic Workflow 用 TypeScript 写清顺序、并发与停止规则；只有需要理解与判断时，才启动完整的 Agent Loop。",
     startBuilding: "查看工作方式",
     copy: "复制",
     copied: "已复制",
@@ -733,7 +737,7 @@ const translations = {
     tickerThree: "Skill 承载知识 · Workflow 让步骤变得显式",
     explore: "探索运行机制",
     whyLabel: "为什么需要 DYNAMIC WORKFLOW",
-    whyTitle: "并不是所有事情<br><em>都值得再问模型一遍。</em>",
+    whyTitle: "机械步骤，<br><em>不必反复问模型。</em>",
     whyIntro:
       "Skill 很适合承载知识与策略。但当机械步骤也写在自然语言里，Agent 每推进一步，往往还要重新读取上下文、判断下一步。Dynamic Workflow 把这部分控制流移进代码。",
     featureOneTitle: "代码负责计划",
@@ -746,14 +750,14 @@ const translations = {
     featureThreeBody:
       "当结果还要交给代码消费，JSON Schema 会先校验输出结构，再让下一步继续。",
     exampleLabel: "创建并运行 WORKFLOW",
-    exampleTitle: "创建一个。<br><em>运行 Deep Research。</em>",
+    exampleTitle: "一句话创建。<br><em>一条命令运行。</em>",
     exampleIntro:
       "用一句话生成 Workflow，或者直接在仓库根目录运行内置的 Deep Research 示例。",
     openExample: "查看示例源码",
     exampleHref:
       "https://github.com/deerwork-ai/deer-workflow/tree/main/examples/deep-research",
     buildLabel: "Workflow 就是一段代码",
-    buildTitle: "普通 TypeScript。<br>只有 agent() 启动 Agent Loop。",
+    buildTitle: "编排就是代码。<br>判断才交给 agent()。",
     buildIntro:
       "数组、分支、循环和并发负责机械工作；需要理解、探索与判断时，再调用 agent()。",
     readGuide: "阅读 Workflow API 契约",
