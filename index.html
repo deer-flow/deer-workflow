@@ -26,7 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Mono:wght@300;400;500&family=Noto+Sans+SC:wght@400;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260726-7" />
+    <link rel="stylesheet" href="./styles.css?v=20260727-1" />
   </head>
   <body>
     <div class="noise" aria-hidden="true"></div>
@@ -41,11 +41,13 @@
       </a>
 
       <nav aria-label="Primary navigation">
-        <a href="#why" data-i18n="navWhy">Why</a>
-        <a href="#build" data-i18n="navBuild">How it works</a>
+        <a href="#why" target="_self" data-i18n="navWhy">Why</a>
+        <a href="#portable" target="_self" data-i18n="navPortable">Runtimes</a>
+        <a href="#build" target="_self" data-i18n="navBuild">How it works</a>
         <a
           id="docs-link"
           href="https://github.com/deerwork-ai/deer-workflow#readme"
+          target="_self"
           data-i18n="navDocs"
           >Docs</a
         >
@@ -233,7 +235,7 @@
             <p data-i18n="exampleLabel">CREATE &amp; RUN</p>
           </div>
           <h2 id="example-title" data-i18n-html="exampleTitle">
-            Create one.<br /><em>Run deep-research.</em>
+            Create from a prompt.<br /><em>Run with one command.</em>
           </h2>
           <p data-i18n="exampleIntro">
             Generate a Workflow from one sentence, or run the bundled Deep
@@ -298,10 +300,155 @@
         </div>
       </section>
 
+      <section class="portable" id="portable" aria-labelledby="portable-title">
+        <div class="portable-copy">
+          <div class="section-index">
+            <span>03</span>
+            <p data-i18n="portableLabel">PORTABLE BY DESIGN</p>
+          </div>
+          <h2 id="portable-title" data-i18n-html="portableTitle">
+            One file,<br /><em>Run anywhere.</em>
+          </h2>
+          <p data-i18n="portableIntro">
+            Run the same workflow.ts as a cloud or FaaS service, inside CI/CD, a
+            desktop app, or directly from the CLI.
+          </p>
+          <div class="portable-contract">
+            <span><i></i> WORKFLOW.TS / PORTABLE</span>
+            <p data-i18n="portableContract">
+              Bring the runtime · keep the Workflow
+            </p>
+          </div>
+        </div>
+
+        <div class="runtime-map">
+          <div class="runtime-grid-plane" aria-hidden="true"></div>
+          <div class="runtime-horizon" aria-hidden="true"></div>
+          <svg
+            class="runtime-network"
+            viewBox="0 0 1000 640"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <defs>
+              <filter
+                id="route-glow"
+                x="-40%"
+                y="-40%"
+                width="180%"
+                height="180%"
+              >
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <path
+              id="route-cloud"
+              class="runtime-route route-cloud"
+              d="M500 350 C520 260 565 175 500 90"
+            />
+            <path
+              id="route-desktop"
+              class="runtime-route route-desktop"
+              d="M500 350 C640 280 710 220 835 175"
+            />
+            <path
+              id="route-cli"
+              class="runtime-route route-cli"
+              d="M500 350 C665 390 745 450 840 505"
+            />
+            <path
+              id="route-faas"
+              class="runtime-route route-faas"
+              d="M500 350 C370 285 270 225 155 190"
+            />
+            <path
+              id="route-cicd"
+              class="runtime-route route-cicd"
+              d="M500 350 C400 410 300 470 190 510"
+            />
+            <g class="runtime-pulses" filter="url(#route-glow)">
+              <circle class="pulse-cloud" r="5">
+                <animateMotion dur="4.8s" repeatCount="indefinite">
+                  <mpath href="#route-cloud" />
+                </animateMotion>
+              </circle>
+              <circle class="pulse-desktop" r="5">
+                <animateMotion
+                  dur="5.6s"
+                  begin="-1.8s"
+                  repeatCount="indefinite"
+                >
+                  <mpath href="#route-desktop" />
+                </animateMotion>
+              </circle>
+              <circle class="pulse-cli" r="5">
+                <animateMotion
+                  dur="4.4s"
+                  begin="-2.6s"
+                  repeatCount="indefinite"
+                >
+                  <mpath href="#route-cli" />
+                </animateMotion>
+              </circle>
+              <circle class="pulse-faas" r="5">
+                <animateMotion
+                  dur="5.2s"
+                  begin="-3.4s"
+                  repeatCount="indefinite"
+                >
+                  <mpath href="#route-faas" />
+                </animateMotion>
+              </circle>
+              <circle class="pulse-cicd" r="5">
+                <animateMotion dur="6s" begin="-4.2s" repeatCount="indefinite">
+                  <mpath href="#route-cicd" />
+                </animateMotion>
+              </circle>
+            </g>
+          </svg>
+
+          <div class="runtime-kernel" aria-hidden="true">
+            <div class="kernel-topline">
+              <span>CORE_00</span>
+              <i></i>
+              <b>ONLINE</b>
+            </div>
+            <strong>workflow.ts</strong>
+            <div class="kernel-flow"><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+
+          <div class="runtime-node node-web">
+            <span>HOST_01</span>
+            <strong data-i18n="portableWeb">Cloud service</strong>
+          </div>
+          <div class="runtime-node node-desktop">
+            <span>HOST_02</span>
+            <strong data-i18n="portableDesktop">Desktop</strong>
+          </div>
+          <div class="runtime-node node-cli">
+            <span>HOST_03</span>
+            <strong>CLI</strong>
+          </div>
+          <div class="runtime-node node-faas">
+            <span>HOST_04</span>
+            <strong data-i18n="portableFaas">FaaS service</strong>
+          </div>
+          <div class="runtime-node node-cicd">
+            <span>HOST_05</span>
+            <strong>CI/CD</strong>
+          </div>
+          <div class="runtime-scanline" aria-hidden="true"></div>
+        </div>
+      </section>
+
       <section class="build" id="build" aria-labelledby="build-title">
         <div class="build-copy">
           <div class="section-index light">
-            <span>03</span>
+            <span>04</span>
             <p data-i18n="buildLabel">THE WORKFLOW IS CODE</p>
           </div>
           <h2 id="build-title" data-i18n-html="buildTitle">
@@ -342,7 +489,7 @@
 <span class="code-faint">14</span> <span class="code-pink">export default async function</span> <span class="code-blue">workflow</span>(args: { topic: string }) {
 <span class="code-faint">15</span>   <span class="code-blue">phase</span>(<span class="code-green">"Plan"</span>);
 <span class="code-faint">16</span>   <span class="code-blue">log</span>(<span class="code-green">`Planning research for ${args.topic}`</span>);
-<span class="code-faint">17</span>   <span class="code-pink">const</span> plan = <span class="code-pink">await</span> <span class="code-blue">agent</span>&lt;{ angles: string[] }&gt;(
+<span class="code-faint">17</span>   <span class="code-pink">const</span> plan = <span class="code-pink">await</span> <span class="agent-mark">agent</span>&lt;{ angles: string[] }&gt;(
 <span class="code-faint">18</span>     <span class="code-green">`Plan independent research angles for ${args.topic}`</span>,
 <span class="code-faint">19</span>     {
 <span class="code-faint">20</span>       schema: {
@@ -357,16 +504,16 @@
 <span class="code-faint">29</span>   <span class="code-blue">phase</span>(<span class="code-green">"Research"</span>);
 <span class="code-faint">30</span>   <span class="code-blue">log</span>(<span class="code-green">`Researching ${plan.angles.length} angles`</span>);
 <span class="code-faint">31</span>   <span class="code-pink">const</span> signals = <span class="code-pink">await</span> <span class="code-blue">parallel</span>(
-<span class="code-faint">32</span>     plan.angles.map((angle) => () => <span class="code-blue">agent</span>(<span class="code-green">`Research ${angle}`</span>)),
+<span class="code-faint">32</span>     plan.angles.map((angle) => () => <span class="agent-mark">agent</span>(<span class="code-green">`Research ${angle}`</span>)),
 <span class="code-faint">33</span>   );
 <span class="code-faint">34</span>   <span class="code-pink">const</span> findings = <span class="code-pink">await</span> <span class="code-blue">pipeline</span>(
 <span class="code-faint">35</span>     signals.filter(Boolean),
-<span class="code-faint">36</span>     (signal) => <span class="code-blue">agent</span>(<span class="code-green">`Extract key facts:\n${signal}`</span>),
+<span class="code-faint">36</span>     (signal) => <span class="agent-mark">agent</span>(<span class="code-green">`Extract key facts:\n${signal}`</span>),
 <span class="code-faint">37</span>   );
 <span class="code-faint">38</span>   <span class="code-blue">log</span>(<span class="code-green">`Prepared ${findings.length} findings`</span>);
 <span class="code-faint">39</span>
 <span class="code-faint">40</span>   <span class="code-blue">phase</span>(<span class="code-green">"Synthesize"</span>);
-<span class="code-faint">41</span>   <span class="code-pink">return</span> <span class="code-blue">agent</span>(<span class="code-green">`Synthesize:\n${JSON.stringify(findings)}`</span>);
+<span class="code-faint">41</span>   <span class="code-pink">return</span> <span class="agent-mark">agent</span>(<span class="code-green">`Synthesize:\n${JSON.stringify(findings)}`</span>);
 <span class="code-faint">42</span> }</code></pre>
           <div class="code-status">
             <span><i></i> FLOW READY</span>
@@ -403,6 +550,6 @@
         }
       }
     </script>
-    <script type="module" src="./app.js?v=20260726-7"></script>
+    <script type="module" src="./app.js?v=20260727-1"></script>
   </body>
 </html>

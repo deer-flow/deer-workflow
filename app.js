@@ -572,6 +572,7 @@ const orbitControl = {
   targetYaw: 0,
   targetPitch: 0,
 };
+
 let frameId = 0;
 let startTime = performance.now();
 let manualTime = null;
@@ -708,6 +709,7 @@ const translations = {
     description:
       "deer-workflow combines program stability with Agent initiative. Let code drive the flow; Agents handle judgment.",
     navWhy: "Why",
+    navPortable: "Runtimes",
     navBuild: "How it works",
     navDocs: "Docs",
     docsHref: "https://github.com/deerwork-ai/deer-workflow#readme",
@@ -745,12 +747,20 @@ const translations = {
     featureThreeBody:
       "When code consumes an Agent result, JSON Schema validates its shape before the next step runs.",
     exampleLabel: "CREATE & RUN",
-    exampleTitle: "Create one.<br><em>Run deep-research.</em>",
+    exampleTitle: "Create from a prompt.<br><em>Run with one command.</em>",
     exampleIntro:
       "Generate a Workflow from one sentence, or run the bundled Deep Research example from the repository root.",
     openExample: "Open the example",
     exampleHref:
       "https://github.com/deerwork-ai/deer-workflow/tree/main/examples/deep-research",
+    portableLabel: "PORTABLE BY DESIGN",
+    portableTitle: "One file,<br><em>Run anywhere.</em>",
+    portableIntro:
+      "Run the same workflow.ts as a cloud or FaaS service, inside CI/CD, a desktop app, or directly from the CLI.",
+    portableContract: "Bring the runtime · keep the Workflow",
+    portableWeb: "Cloud service",
+    portableDesktop: "Desktop",
+    portableFaas: "FaaS service",
     buildLabel: "THE WORKFLOW IS CODE",
     buildTitle: "Ordinary TypeScript.<br>Only agent() starts an Agent Loop.",
     buildIntro:
@@ -763,6 +773,7 @@ const translations = {
     description:
       "deer-workflow 结合程序的稳定性和 Agent 的主观能动性：代码负责流程，Agent 负责判断。",
     navWhy: "为什么",
+    navPortable: "跨端运行",
     navBuild: "如何工作",
     navDocs: "文档",
     docsHref:
@@ -801,12 +812,20 @@ const translations = {
     featureThreeBody:
       "当结果还要交给代码消费，JSON Schema 会先校验输出结构，再让下一步继续。",
     exampleLabel: "创建并运行 WORKFLOW",
-    exampleTitle: "一句话创建。<br><em>一条命令运行。</em>",
+    exampleTitle: "一句话生成。<br><em>一条命令运行。</em>",
     exampleIntro:
       "用一句话生成 Workflow，或者直接在仓库根目录运行内置的 Deep Research 示例。",
     openExample: "查看示例源码",
     exampleHref:
       "https://github.com/deerwork-ai/deer-workflow/tree/main/examples/deep-research",
+    portableLabel: "为跨端运行而设计",
+    portableTitle: "一份代码，<br><em>运行在任何地方。</em>",
+    portableIntro:
+      "同一份 workflow.ts 可以运行成云服务或 FaaS Service，进入 CI/CD、桌面端，或直接从 CLI 执行。",
+    portableContract: "运行时随端适配 · Workflow 原样复用",
+    portableWeb: "云服务",
+    portableDesktop: "桌面端",
+    portableFaas: "FaaS 服务",
     buildLabel: "Workflow 就是一段代码",
     buildTitle: "编排就是代码。<br>判断才交给 agent()。",
     buildIntro:
@@ -819,9 +838,34 @@ const translations = {
 let activeLanguage = "en";
 
 for (const link of document.querySelectorAll("a")) {
-  link.target = "_blank";
-  link.rel = "noreferrer";
+  if (link.closest(".site-header nav")) {
+    link.target = "_self";
+    link.removeAttribute("rel");
+  } else {
+    link.target = "_blank";
+    link.rel = "noreferrer";
+  }
 }
+
+const siteHeader = document.querySelector(".site-header");
+let headerTicking = false;
+
+function updateFixedHeader() {
+  siteHeader.classList.toggle("is-fixed", window.scrollY > 48);
+  headerTicking = false;
+}
+
+window.addEventListener(
+  "scroll",
+  () => {
+    if (!headerTicking) {
+      headerTicking = true;
+      requestAnimationFrame(updateFixedHeader);
+    }
+  },
+  { passive: true },
+);
+updateFixedHeader();
 
 function setLanguage(language, persist = false) {
   activeLanguage = translations[language] ? language : "en";

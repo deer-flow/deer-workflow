@@ -81,6 +81,12 @@ html[lang="zh-CN"] .example-copy h2 {
   line-height: 1.08;
 }
 
+html[lang="zh-CN"] .portable-copy h2 {
+  font-size: clamp(44px, 5.1vw, 78px);
+  letter-spacing: -0.045em;
+  line-height: 1.08;
+}
+
 html[lang="zh-CN"] .build-copy h2 {
   font-size: clamp(40px, 4.3vw, 68px);
   letter-spacing: -0.045em;
@@ -135,6 +141,21 @@ button {
   border-bottom: 1px solid var(--line);
   opacity: 0;
   animation: enter-down 500ms var(--ease-out) 80ms forwards;
+  transition:
+    padding 220ms var(--ease-out),
+    background-color 220ms var(--ease-out),
+    border-color 220ms var(--ease-out),
+    box-shadow 220ms var(--ease-out);
+}
+
+.site-header.is-fixed {
+  position: fixed;
+  padding-top: 11px;
+  padding-bottom: 11px;
+  border-color: rgba(240, 238, 230, 0.14);
+  background: rgba(7, 8, 6, 0.86);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(18px) saturate(1.15);
 }
 
 .brand {
@@ -753,6 +774,14 @@ h1 span {
   -webkit-text-stroke: 1.5px var(--ink);
 }
 
+.agent-mark {
+  display: inline-block;
+  padding: 0 0.12em;
+  border-radius: 3px;
+  color: var(--ink);
+  background: var(--acid);
+}
+
 .example-copy > p {
   max-width: 510px;
   margin-bottom: 32px;
@@ -855,6 +884,529 @@ h1 span {
   margin-right: 7px;
   border-radius: 50%;
   background: var(--acid);
+}
+
+.portable {
+  position: relative;
+  display: grid;
+  grid-template-columns: 0.68fr 1.32fr;
+  align-items: center;
+  gap: 4vw;
+  min-height: 850px;
+  padding: 110px var(--page-gutter);
+  overflow: hidden;
+  color: var(--paper);
+  border-top: 1px solid rgba(240, 238, 230, 0.12);
+  border-bottom: 1px solid rgba(240, 238, 230, 0.12);
+  background:
+    radial-gradient(
+      circle at 71% 44%,
+      rgba(42, 58, 28, 0.42),
+      transparent 24rem
+    ),
+    linear-gradient(110deg, rgba(217, 255, 86, 0.04), transparent 42%),
+    var(--ink);
+}
+
+.portable::after {
+  position: absolute;
+  right: var(--page-gutter);
+  bottom: 26px;
+  color: rgba(240, 238, 230, 0.32);
+  content: "RUNTIME GRID / PERSPECTIVE 01";
+  font-size: 7px;
+  letter-spacing: 0.14em;
+}
+
+.portable .section-index {
+  margin-bottom: 46px;
+  color: rgba(240, 238, 230, 0.46);
+}
+
+.portable .section-index span {
+  border-color: rgba(240, 238, 230, 0.24);
+}
+
+.portable-copy {
+  position: relative;
+  z-index: 5;
+}
+
+.portable-copy h2 {
+  max-width: 620px;
+  margin: 0 0 28px;
+  font-family: "Archivo Black", sans-serif;
+  font-size: clamp(48px, 5.7vw, 88px);
+  font-weight: 400;
+  letter-spacing: -0.065em;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.portable-copy h2 em {
+  color: transparent;
+  font-style: normal;
+  -webkit-text-stroke: 1.5px var(--paper);
+}
+
+.portable-copy > p {
+  max-width: 520px;
+  margin-bottom: 34px;
+  color: #9a9c94;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.portable-contract {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  padding: 13px 16px;
+  border: 1px solid rgba(240, 238, 230, 0.2);
+  background: rgba(7, 8, 6, 0.72);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.portable-contract i {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--acid);
+  box-shadow: 0 0 12px var(--acid);
+  animation: runtime-status 1.8s ease-in-out infinite;
+}
+
+.portable-contract p {
+  margin: 0;
+  color: #74776f;
+}
+
+.runtime-map {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  min-height: 640px;
+  overflow: hidden;
+  border: 1px solid rgba(240, 238, 230, 0.1);
+  background:
+    radial-gradient(
+      ellipse at 50% 48%,
+      rgba(217, 255, 86, 0.13),
+      transparent 29%
+    ),
+    linear-gradient(180deg, rgba(240, 238, 230, 0.025), transparent 34%),
+    #080a07;
+  box-shadow:
+    inset 0 0 100px rgba(0, 0, 0, 0.58),
+    0 30px 70px rgba(0, 0, 0, 0.18);
+  isolation: isolate;
+  perspective: 740px;
+}
+
+.runtime-map::before {
+  position: absolute;
+  z-index: 6;
+  inset: 14px;
+  border: 1px solid rgba(217, 255, 86, 0.14);
+  pointer-events: none;
+  content: "";
+}
+
+.runtime-map::after {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      #080a07 0%,
+      transparent 10%,
+      transparent 90%,
+      #080a07
+    ),
+    linear-gradient(
+      180deg,
+      #080a07 0%,
+      transparent 12%,
+      transparent 87%,
+      #080a07
+    );
+  pointer-events: none;
+  content: "";
+}
+
+.runtime-grid-plane {
+  position: absolute;
+  z-index: 0;
+  top: 18%;
+  left: -30%;
+  width: 160%;
+  height: 120%;
+  background-image:
+    linear-gradient(rgba(217, 255, 86, 0.17) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(217, 255, 86, 0.17) 1px, transparent 1px);
+  background-position: 0 0;
+  background-size: 62px 62px;
+  opacity: 0.55;
+  transform: rotateX(66deg);
+  transform-origin: center top;
+  animation: runtime-grid-flow 5.5s linear infinite;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 17%,
+    #000 70%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 17%,
+    #000 70%,
+    transparent 100%
+  );
+}
+
+.runtime-horizon {
+  position: absolute;
+  z-index: 1;
+  top: 28%;
+  left: 12%;
+  width: 76%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(217, 255, 86, 0.56),
+    transparent
+  );
+  box-shadow: 0 0 18px rgba(217, 255, 86, 0.34);
+  animation: runtime-horizon-breathe 3.8s ease-in-out infinite;
+}
+
+.runtime-network {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.runtime-route {
+  fill: none;
+  stroke-width: 1.4;
+  stroke-dasharray: 4 8;
+  opacity: 0.58;
+  animation: runtime-route-flow 2.8s linear infinite;
+}
+
+.route-cloud {
+  stroke: #ff6aa0;
+}
+
+.route-desktop {
+  stroke: #9a8cff;
+}
+
+.route-cli {
+  stroke: #54d9ff;
+}
+
+.route-faas {
+  stroke: #4dffbf;
+}
+
+.route-cicd {
+  stroke: #ffd65c;
+}
+
+.pulse-cloud {
+  fill: #ff6aa0;
+}
+
+.pulse-desktop {
+  fill: #9a8cff;
+}
+
+.pulse-cli {
+  fill: #54d9ff;
+}
+
+.pulse-faas {
+  fill: #4dffbf;
+}
+
+.pulse-cicd {
+  fill: #ffd65c;
+}
+
+.runtime-node {
+  position: absolute;
+  z-index: 4;
+  display: grid;
+  width: 138px;
+  gap: 6px;
+  padding: 11px 13px;
+  border: 1px solid currentColor;
+  color: var(--paper);
+  background:
+    linear-gradient(135deg, rgba(240, 238, 230, 0.035), transparent 55%),
+    rgba(7, 8, 6, 0.92);
+  box-shadow:
+    8px 8px 0 rgba(0, 0, 0, 0.22),
+    0 0 26px rgba(7, 8, 6, 0.78);
+  animation: runtime-node-float 4.2s ease-in-out infinite;
+}
+
+.runtime-node::before,
+.runtime-node::after {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: currentColor;
+  border-style: solid;
+  content: "";
+}
+
+.runtime-node::before {
+  top: -4px;
+  left: -4px;
+  border-width: 1px 0 0 1px;
+}
+
+.runtime-node::after {
+  right: -4px;
+  bottom: -4px;
+  border-width: 0 1px 1px 0;
+}
+
+.runtime-node span {
+  opacity: 0.5;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+}
+
+.runtime-node strong {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.runtime-node strong::before {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+  content: "";
+}
+
+.node-web {
+  top: 7%;
+  left: 43%;
+  color: #ff6aa0;
+  animation-delay: -0.8s;
+}
+
+.node-desktop {
+  top: 19%;
+  right: 9%;
+  color: #9a8cff;
+  animation-delay: -1.9s;
+}
+
+.node-cli {
+  right: 8%;
+  bottom: 12%;
+  color: #54d9ff;
+  animation-delay: -2.8s;
+}
+
+.node-faas {
+  top: 23%;
+  left: 8%;
+  color: #4dffbf;
+  animation-delay: -1.3s;
+}
+
+.node-cicd {
+  bottom: 12%;
+  left: 13%;
+  color: #ffd65c;
+  animation-delay: -3.4s;
+}
+
+.runtime-kernel {
+  position: absolute;
+  z-index: 4;
+  top: 54%;
+  left: 50%;
+  display: grid;
+  width: 250px;
+  gap: 14px;
+  padding: 24px 26px 22px;
+  border: 1px solid rgba(217, 255, 86, 0.9);
+  color: var(--paper);
+  background:
+    linear-gradient(135deg, rgba(217, 255, 86, 0.12), transparent 48%), #0b0e08;
+  box-shadow:
+    0 0 0 1px rgba(217, 255, 86, 0.12),
+    12px 14px 0 #11170c,
+    24px 28px 0 rgba(217, 255, 86, 0.09),
+    0 0 52px rgba(217, 255, 86, 0.1);
+  transform: translate(-50%, -50%) rotateX(7deg) rotateZ(-2deg);
+  transform-style: preserve-3d;
+  animation: runtime-kernel-hover 4.6s ease-in-out infinite;
+}
+
+.kernel-topline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--acid);
+  font-size: 7px;
+  letter-spacing: 0.12em;
+}
+
+.kernel-topline i {
+  flex: 1;
+  height: 1px;
+  background: rgba(217, 255, 86, 0.28);
+}
+
+.kernel-topline b {
+  font-weight: 500;
+}
+
+.runtime-kernel > strong {
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.06em;
+}
+
+.kernel-flow {
+  display: flex;
+  gap: 8px;
+}
+
+.kernel-flow i {
+  width: 26px;
+  height: 7px;
+  background: var(--acid);
+  opacity: 0.16;
+  animation: runtime-core-flow 1.5s ease-in-out infinite;
+}
+
+.kernel-flow i:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.kernel-flow i:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+.kernel-flow i:nth-child(4) {
+  animation-delay: 360ms;
+}
+
+.kernel-flow i:nth-child(5) {
+  animation-delay: 480ms;
+}
+
+.runtime-scanline {
+  position: absolute;
+  z-index: 3;
+  top: 22%;
+  left: 8%;
+  width: 84%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(217, 255, 86, 0.7),
+    transparent
+  );
+  box-shadow: 0 0 14px rgba(217, 255, 86, 0.38);
+  opacity: 0;
+  animation: runtime-scan 6.4s ease-in-out infinite;
+}
+
+@keyframes runtime-grid-flow {
+  to {
+    background-position: 0 62px;
+  }
+}
+
+@keyframes runtime-route-flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+@keyframes runtime-node-float {
+  50% {
+    margin-top: -7px;
+  }
+}
+
+@keyframes runtime-kernel-hover {
+  50% {
+    transform: translate(-50%, calc(-50% - 9px)) rotateX(7deg) rotateZ(-2deg);
+  }
+}
+
+@keyframes runtime-core-flow {
+  40%,
+  65% {
+    opacity: 1;
+    box-shadow: 0 0 12px rgba(217, 255, 86, 0.7);
+  }
+}
+
+@keyframes runtime-horizon-breathe {
+  50% {
+    opacity: 0.42;
+    transform: scaleX(0.88);
+  }
+}
+
+@keyframes runtime-scan {
+  0%,
+  12% {
+    top: 21%;
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 0.65;
+  }
+
+  72% {
+    opacity: 0.22;
+  }
+
+  80%,
+  100% {
+    top: 83%;
+    opacity: 0;
+  }
+}
+
+@keyframes runtime-status {
+  50% {
+    opacity: 0.4;
+    transform: scale(0.72);
+  }
 }
 
 .build {
@@ -1107,6 +1659,21 @@ footer a:hover {
     grid-template-columns: 1fr;
   }
 
+  .portable {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .portable-copy > p {
+    max-width: 680px;
+  }
+
+  .runtime-map {
+    width: min(100%, 820px);
+    min-height: 580px;
+    margin: 0 auto;
+  }
+
   .build {
     grid-template-columns: 1fr;
   }
@@ -1163,6 +1730,7 @@ footer a:hover {
 
   html[lang="zh-CN"] .principles-heading h2,
   html[lang="zh-CN"] .example-copy h2,
+  html[lang="zh-CN"] .portable-copy h2,
   html[lang="zh-CN"] .build-copy h2 {
     font-size: clamp(38px, 12vw, 58px);
     line-height: 1.08;
@@ -1243,6 +1811,67 @@ footer a:hover {
 
   .example-terminal-stack .example-terminal:last-child {
     transform: none;
+  }
+
+  .portable {
+    padding: 100px 20px 80px;
+  }
+
+  .portable-copy h2 {
+    font-size: clamp(42px, 13vw, 66px);
+  }
+
+  .portable-contract {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .runtime-map {
+    min-height: 450px;
+    margin-inline: -12px;
+  }
+
+  .runtime-node {
+    width: 102px;
+    padding: 9px 10px;
+  }
+
+  .runtime-node strong {
+    font-size: 8px;
+  }
+
+  .runtime-kernel {
+    top: 54%;
+    width: 190px;
+    padding: 18px;
+  }
+
+  .runtime-kernel > strong {
+    font-size: 20px;
+  }
+
+  .node-web {
+    left: 34%;
+  }
+
+  .node-desktop {
+    top: 21%;
+  }
+
+  .node-faas {
+    top: 21%;
+    left: 2%;
+  }
+
+  .node-cicd {
+    bottom: 7%;
+    left: 3%;
+  }
+
+  .portable::after {
+    right: 20px;
+    bottom: 18px;
   }
 
   .example-command {
