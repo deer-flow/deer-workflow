@@ -64,6 +64,10 @@ html[lang="zh-CN"] .hero-intro {
   line-height: 1.8;
 }
 
+html[lang="zh-CN"] .hero-copy {
+  transform: translateY(-12vh);
+}
+
 html[lang="zh-CN"] .principles-heading h2 {
   font-size: clamp(54px, 6.1vw, 98px);
   letter-spacing: -0.05em;
@@ -1061,6 +1065,10 @@ footer a:hover {
 
   .hero-copy {
     padding-bottom: 0;
+    transform: none;
+  }
+
+  html[lang="zh-CN"] .hero-copy {
     transform: none;
   }
 
